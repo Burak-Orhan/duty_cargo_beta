@@ -1,0 +1,202 @@
+/* Genel Stiller */
+body {
+    background-attachment: fixed;
+}
+
+/* Kart Stilleri */
+.bg-white {
+    backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.98);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.bg-white:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-dot {
+    position: relative;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+.timeline-dot:nth-child(1) { animation-delay: 0.1s; }
+.timeline-dot:nth-child(2) { animation-delay: 0.3s; }
+.timeline-dot:nth-child(3) { animation-delay: 0.5s; }
+.timeline-dot:nth-child(4) { animation-delay: 0.7s; }
+
+.status-icon {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.status-icon:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px -2px rgba(0, 0, 0, 0.15);
+}
+
+.status-badge {
+    transition: all 0.2s ease;
+}
+
+.status-badge:hover {
+    transform: translateY(-1px);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .timeline-dot {
+        margin-bottom: 2rem;
+    }
+    
+    .status-icon {
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+/* Özel Efektler */
+.bg-purple-50 {
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+}
+
+.bg-gray-50 {
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+}
+
+.rounded-2xl {
+    transition: transform 0.3s ease;
+}
+
+.text-purple-600 {
+    filter: drop-shadow(0 1px 1px rgba(79, 70, 229, 0.1));
+}
+
+.timeline-line {
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #e5e7eb 50%, transparent 0%);
+    background-size: 100% 4px;
+    animation: borderDash 20s linear infinite;
+}
+
+@keyframes borderDash {
+    to {
+        background-position: 0 -1000px;
+    }
+}
+
+.card-content {
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+.bg-gradient-to-r {
+    animation: fadeIn 0.5s ease-out forwards;
+    transition: all 0.3s ease;
+}
+
+.bg-gradient-to-r:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1);
+}
+
+.text-gray-500 svg {
+    transition: all 0.2s ease;
+}
+
+.text-gray-500:hover svg {
+    transform: scale(1.2);
+    color: #6366f1;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.max-w-3xl {
+    animation: containerFadeIn 0.5s ease-out forwards;
+}
+
+@keyframes containerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.border-gray-100 {
+    border-color: rgba(243, 244, 246, 0.5);
+}
+
+.bg-gradient-to-r {
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.bg-emerald-500 {
+    background: #10B981;
+    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+}
+
+.timeline-dot:nth-child(4) .status-icon:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px -2px rgba(16, 185, 129, 0.3);
+}
+
+/* teslim edildi durumu için animasyon */
+@keyframes successPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+.timeline-dot:nth-child(4) .status-icon {
+    animation: successPulse 2s infinite;
+}
