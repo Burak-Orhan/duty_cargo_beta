@@ -22,20 +22,8 @@ class DatabaseSeeder extends Seeder
     protected static $addressIndex = 0;
     protected static $zipCodeIndex = 0;
 
-    // public function run(): void
-    // {
-    //     // User::factory()->create();
-    //     // $user = User::factory()->create();
-
-    //     $this->_testUser();
-    //     $this->UserInformation();
-    //     $this->Cities();
-    //     Cargos::factory()->create();
-    // }
-
     public function run()
     {
-
         $this->_testUser();
         $user = User::factory()->create();
         $this->Cities();
