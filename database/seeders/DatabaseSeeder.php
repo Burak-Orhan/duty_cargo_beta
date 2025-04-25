@@ -40,10 +40,10 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()->create();
         $this->Cities();
         $company = $this->createCompany();
-        // $customer = $this->createCustomer($user);
+        // $customer = $this->createCustomer($user); //Eğer bağlantı kurmadan kullanılacaksa burayı kullanmalıyız
         $this->createUserInformation($user);
-        // $this->createCargos($company, $customer, $user);
-        $this->createCargosCustomers($company, $user);
+        // $this->createCargos($company, $customer, $user); //Eğer bağlantı kurmadan kullanılacaksa burayı kullanmalıyız
+        $this->createCargosCustomers($company, $user); //Eğer bağlantı kurmadan kullanılacaksa burayo kapatmalıyız
     }
 
     public function Cities()
