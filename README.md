@@ -3,6 +3,7 @@
   <!-- <img src="/public/assets/img/DutyCARGO.webp" width="300" alt="DutyCARGO Logo"> -->
 </p>
 
+<p align="center">Made With Laravel & Hand Craft</p>
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
