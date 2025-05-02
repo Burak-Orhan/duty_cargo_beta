@@ -44,9 +44,8 @@ class TrackingController extends Controller
                 "cu.purchase_date as customer_purchase_date"
             )
             ->join("cargos as c", "c.user_id", "=", "u.id")
-            ->join("company as co", "co.id", "=", "c.company_id")
-            // ->join("customer as cu", "cu.user_id", "=", "u.id") //main join
-            ->join("customer as cu", "cu.cargos_id", "=", "c.id") 
+            ->join("companies as co", "co.id", "=", "c.company_id")
+            ->join("customers as cu", "cu.cargo_id", "=", "c.id") 
             ->join("user_information as ui", "ui.user_id", "=", "u.id")
             ->where("c.tracking_code", "=", $request->trackingCode)
             ->first();

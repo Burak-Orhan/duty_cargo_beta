@@ -54,6 +54,7 @@ return new class extends Migration {
             $table->string('tracking_code')->unique()->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->integer("status")->default("4");
             $table->timestamps();
         });
 

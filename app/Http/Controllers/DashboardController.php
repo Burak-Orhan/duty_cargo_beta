@@ -16,12 +16,13 @@ class DashboardController extends Controller
             ->select([
                 'u.name as users_name',
                 'c.tracking_code as trackingCode',
+                'c.id as cargo_id',
+                'c.status as cargo_status',
                 'co.country as company_country',
                 'co.name as company_name',
                 'ui.country as users_information_country',
                 'ui.city as users_information_city',
                 'cu.purchase_date as customer_purchase_date',
-                'c.id as cargo_id',
             ])
             ->join('users as u', 'u.id', '=', 'c.user_id')
             ->join('companies as co', 'co.id', '=', 'c.company_id')
@@ -32,93 +33,6 @@ class DashboardController extends Controller
             ->Join('user_information as ui', 'ui.id', '=', 'cu.user_information_id')
             ->orderByDesc('c.id')
             ->get();
-
-
-        // $trackings = DB::table('cargos as c')
-        // ->select([
-        //     'u.name as users_name',
-        //     'c.tracking_code as trackingCode',
-        //     'co.country as company_country',
-        //     'co.name as company_name',
-        //     'ui.country as users_information_country',
-        //     'ui.city as users_information_city',
-        //     'cu.purchase_date as customer_purchase_date',
-        // ])
-        // ->join('users as u', 'u.id', '=', 'c.user_id')
-        // ->join('companies as co', 'co.id', '=', 'c.company_id')
-        // ->join('user_information as ui', function ($join) {
-        //     $join->on('ui.user_id', '=', 'u.id')
-        //         ->whereRaw('ui.id = (SELECT MAX(id) FROM user_information WHERE user_id = u.id)');
-        // })
-        // ->join('customers as cu', function ($join) {
-        //     $join->on('cu.user_id', '=', 'u.id')
-        //         ->whereRaw('cu.purchase_date = (SELECT MAX(purchase_date) FROM customers WHERE user_id = u.id)');
-        // })
-        // ->where('u.id', 1)
-        // ->orderByDesc('c.id')
-        // ->get();
-
-        // $trackings = DB::table('cargos as c')
-        // ->select([
-        //     'c.tracking_code as trackingCode',
-        //     'co.name as company_name',
-        //     'co.country as company_country',
-        //     'cu.purchase_date as customer_purchase_date',
-        //     'c.created_at as cargo_created_at', // Kargo gönderim tarihi
-        //     'ui.city as users_information_city',
-        //     "ui.country as users_information_country",
-        // ])
-        // ->join('company as co', 'co.id', '=', 'c.company_id')
-        // ->leftJoin('users as u', 'u.id', '=', 'c.user_id')
-        // ->leftJoin(DB::raw('
-        //     (
-        //         SELECT ui1.*
-        //         FROM user_information ui1
-        //         WHERE ui1.id IN (SELECT MAX(id) FROM user_information GROUP BY user_id)
-        //     ) as ui
-        // '), 'ui.user_id', '=', 'u.id')
-        // ->leftJoin(DB::raw('
-        //     (
-        //         SELECT c1.*
-        //         FROM customer c1
-        //         INNER JOIN (
-        //             SELECT cargos_id, MAX(id) as max_id
-        //             FROM customer
-        //             GROUP BY cargos_id
-        //         ) c2 ON c1.id = c2.max_id
-        //     ) as cu
-        // '), 'cu.cargos_id', '=', 'c.id')
-        // ->orderByDesc('c.id')
-        // ->get();
-
-        // $trackings = DB::table('cargos as c')
-        //     ->select([
-        //         'u.name as users_name',
-        //         'c.tracking_code as trackingCode',
-        //         'co.country as company_country',
-        //         'co.name as company_name',
-        //         'ui.country as users_information_country',
-        //         'ui.city as users_information_city',
-        //         'cu.purchase_date as customer_purchase_date',
-        //     ])
-        //     ->join('users as u', 'u.id', '=', 'c.user_id')
-        //     ->join('company as co', 'co.id', '=', 'c.company_id')
-        //     ->leftJoin('user_information as ui', function ($join) use ($user) {
-        //         $join->on('ui.user_id', '=', 'u.id');
-        //     })
-        //     ->leftJoin(DB::raw('
-        //         (
-        //             SELECT c1.*
-        //             FROM customer c1
-        //             INNER JOIN (
-        //                 SELECT cargos_id, MAX(id) as max_id
-        //                 FROM customer
-        //                 GROUP BY cargos_id
-        //             ) c2 ON c1.id = c2.max_id
-        //         ) as cu
-        //     '), 'cu.cargos_id', '=', 'c.id')
-        //     ->orderByDesc('c.id')
-        //     ->get();
 
         Carbon::setLocale("tr");
         $trackingsCount = $trackings->count();

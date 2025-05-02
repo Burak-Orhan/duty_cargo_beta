@@ -13,5 +13,6 @@ class Cargos extends Model
         "customer_id",
         "tracking_code",
         "user_id",
+        "status"
     ];
 }

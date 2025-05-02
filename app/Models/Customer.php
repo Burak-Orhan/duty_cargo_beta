@@ -15,5 +15,6 @@ class Customer extends Model
         'user_id',
         'purchase_date',
         "cargos_id",
+        "user_information_id"
     ];
 }

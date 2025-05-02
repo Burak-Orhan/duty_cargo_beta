@@ -70,18 +70,16 @@
 
         <!-- Main Content -->
         <div class="ml-64 flex-1">
-            <!-- Header -->
             <header class="bg-white shadow-sm">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900">@yield('breadcrumb', 'Dashboard')</h1>
                 </div>
             </header>
 
-            <!-- Main content -->
             <main>
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                {{-- <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8"> --}}
                     @yield('content')
-                </div>
+                {{-- </div> --}}
             </main>
         </div>
     </div>
