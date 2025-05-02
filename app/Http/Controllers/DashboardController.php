@@ -8,41 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 class DashboardController extends Controller
 {
-    // public function dashboard()
-    // {
-
-    //     $user = Auth::user();
-
-    //     $trackings = DB::table("users", "u")
-    //         ->select(
-    //             "u.name as users_name",
-    //             "c.tracking_code as trackingCode",
-    //             "co.country as company_country",
-    //             "co.name as company_name",
-    //             "ui.country as users_information_country",
-    //             "ui.city as users_information_city",
-    //             "cu.purchase_date as customer_purchase_date"
-    //         )
-    //         ->join("cargos as c", "c.user_id", "=", "u.id")
-    //         ->join("company as co", "co.id", "=", "c.company_id")
-    //         ->join("customer as cu", "cu.user_id", "=", "u.id")
-    //         ->join("user_information as ui", "ui.user_id", "=", "u.id")
-    //         ->where("u.id", "=", $user->id)
-    //         ->orderByDesc("c.id")
-    //         ->get();
-
-    //     $trackingsCount = DB::table("cargos", "c")
-    //         ->where("user_id", "=", $user->id)
-    //         ->count();
-
-    //     // $lastTracking = $trackings->first()->company_purchase_date ?? null;
-    //     $lastTracking = $$trackings->first()->company_purchase_date ? Carbon::parse($$trackings->first()->company_purchase_date)->diffForHumans() : null;
-
-
-    //     return view("dashboard.dashboard", compact(["trackings", "user", "trackingsCount", "lastTracking"]));
-    // }
-
-
     public function dashboard()
     {
         $user = Auth::user();
