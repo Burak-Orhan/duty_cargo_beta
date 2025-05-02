@@ -2,35 +2,43 @@
 
 namespace Database\Seeders;
 
-use App\Models\Customer;
-use App\Models\Company;
-use App\Models\Cargos;
-use App\Models\Cities;
-use App\Models\UserInformation;
-use App\Models\User;
-
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+use App\Models\User;
+use App\Models\UserInformation;
+use App\Models\Cities;
+
+class fakeSeeder extends Seeder
 {
-    protected static $cityIndex = 0;
-    protected static $stateIndex = 0;
-    protected static $districtIndex = 0;
-    protected static $addressIndex = 0;
-    protected static $zipCodeIndex = 0;
-
     public function run()
     {
-        $this->_testUser();
         $user = User::factory()->create();
+
+        $this->testUser();
         $this->Cities();
-        $company = $this->createCompany();
-        // $customer = $this->createCustomer($user); //Eğer bağlantı kurmadan kullanılacaksa burayı kullanmalıyız
-        $this->createUserInformation($user);
-        // $this->createCargos($company, $customer, $user); //Eğer bağlantı kurmadan kullanılacaksa burayı kullanmalıyız
-        $this->createCargosCustomers($company, $user); //Eğer bağlantı kurmadan kullanılacaksa burayo kapatmalıyız
+        $this->UserInformation($user);
+
+    }
+
+    public function testUser(){
+        $isSeeded = DB::table('_settings')->where('key', 'users_seed_completed')->exists();
+
+        if (!$isSeeded) {
+            User::create([
+                'name' => 'Test User',
+                'email' => 'test@test.com',
+                "password" => "test"
+            ]);
+
+            DB::table('_settings')->insert([
+                'key' => 'users_seed_completed',
+                'value' => 'true',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
     }
 
     public function Cities()
@@ -135,26 +143,7 @@ class DatabaseSeeder extends Seeder
         }
     }
 
-    public function createCompany()
-    {
-        return Company::create([
-            'name' => fake()->company(),
-            'country' => fake()->country(),
-            'city' => fake()->city(),
-            'state' => fake()->state(),
-            'post_date' => fake()->datetime()->format('Y-m-d H:i'),
-        ]);
-    }
-
-    public function createCustomer($user)
-    {
-        return Customer::create([
-            'user_id' => $user->id,
-            'purchase_date' => fake()->datetime()->format('Y-m-d H:i'),
-        ]);
-    }
-
-    public function createUserInformation($user)
+    public function UserInformation($user)
     {
         $randomCity = DB::table('cities')->inRandomOrder()->first();
 
@@ -170,73 +159,5 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 
-    //createCargosCustomers sonradan eklendi normalde 2 ayrı yerden (createCustomer,createCargos) seederları çalışıyordu 
-    //ancak cargo_idleri eşliyemediğimiz için sql sorgularında problem yaşadık 
-    //ondan dolayı okul projesi bitene kadar bu şekilde kullanılacaktır
 
-    public function createCargosCustomers($company, $user)
-    {
-        $lastCargo = Cargos::orderBy('id', 'desc')->first();
-
-        if ($lastCargo) {
-            $lastNumber = (int) str_replace('KRG', '', $lastCargo->tracking_code);
-        } else {
-            $lastNumber = 0;
-        }
-
-        $newNumber = $lastNumber + 1;
-        $newTrackingCode = 'KRG' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
-
-        $cargo = Cargos::create([
-            'company_id' => $company->id,
-            'user_id' => $user->id,
-            'tracking_code' => $newTrackingCode,
-        ]);
-
-        Customer::create([
-            'user_id' => $user->id,
-            'purchase_date' => fake()->datetime()->format('Y-m-d H:i'),
-            'cargos_id' => $cargo->id,
-        ]);
-    }
-
-    public function createCargos($company, $customer, $user)
-    {
-        $lastCargo = Cargos::orderBy('id', 'desc')->first();
-
-        if ($lastCargo)
-            $lastNumber = (int) str_replace('KRG', '', $lastCargo->tracking_code);
-        else
-            $lastNumber = 0;
-
-
-        $newNumber = $lastNumber + 1;
-        $newTrackingCode = 'KRG' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
-
-        Cargos::create([
-            'company_id' => $company->id,
-            'customer_id' => $customer->id,
-            "user_id" => $user->id,
-            "tracking_code" => $newTrackingCode,
-        ]);
-    }
-    public function _testUser()
-    {
-        $isSeeded = DB::table('_settings')->where('key', 'users_seed_completed')->exists();
-
-        if (!$isSeeded) {
-            User::create([
-                'name' => 'Test User',
-                'email' => 'test@test.com',
-                "password" => "test"
-            ]);
-
-            DB::table('_settings')->insert([
-                'key' => 'users_seed_completed',
-                'value' => 'true',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-        }
-    }
 }

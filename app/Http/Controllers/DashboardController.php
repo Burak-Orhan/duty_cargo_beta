@@ -13,25 +13,25 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         $trackings = DB::table('cargos as c')
-    ->select([
-        'u.name as users_name',
-        'c.tracking_code as trackingCode',
-        'co.country as company_country',
-        'co.name as company_name',
-        'ui.country as users_information_country',
-        'ui.city as users_information_city',
-        'cu.purchase_date as customer_purchase_date',
-        'c.id as cargo_id',
-    ])
-    ->join('users as u', 'u.id', '=', 'c.user_id')
-    ->join('companies as co', 'co.id', '=', 'c.company_id')
-    ->join('customers as cu', function ($join) {
-        $join->on('cu.user_id', '=', 'u.id')
-            ->on('cu.cargo_id', '=', 'c.id');
-    })
-    ->Join('user_information as ui', 'ui.id', '=', 'cu.user_information_id')
-    ->orderByDesc('c.id')
-    ->get();
+            ->select([
+                'u.name as users_name',
+                'c.tracking_code as trackingCode',
+                'co.country as company_country',
+                'co.name as company_name',
+                'ui.country as users_information_country',
+                'ui.city as users_information_city',
+                'cu.purchase_date as customer_purchase_date',
+                'c.id as cargo_id',
+            ])
+            ->join('users as u', 'u.id', '=', 'c.user_id')
+            ->join('companies as co', 'co.id', '=', 'c.company_id')
+            ->join('customers as cu', function ($join) {
+                $join->on('cu.user_id', '=', 'u.id')
+                    ->on('cu.cargo_id', '=', 'c.id');
+            })
+            ->Join('user_information as ui', 'ui.id', '=', 'cu.user_information_id')
+            ->orderByDesc('c.id')
+            ->get();
 
 
         // $trackings = DB::table('cargos as c')
