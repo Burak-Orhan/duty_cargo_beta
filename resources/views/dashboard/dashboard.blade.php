@@ -87,16 +87,28 @@
                             Kaydet
                         </button>
                     </div>
-                    <div class="relative">
-                        <input type="text" placeholder="İsim veya e-posta ara..." class="w-64 pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-colors bg-white/80">
-                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
 
+                    <form method="GET" action="{{ route('dashboard') }}">
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="searchInput"
+                                name="search"
+                                placeholder="İsim, e-posta veya kargo kodu ara..." 
+                                value="{{ request('search') }}"
+                                class="w-64 pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-colors bg-white/80"
+                            />
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                        </div>                    
+                    </form>
+                                      
+                </div>
+                
+                
                 <div class="grid grid-cols-5 gap-10 p-5 border-b border-gray-200 bg-white/90">
                     <div class="font-medium text-gray-700">E-posta</div>
                     <div class="font-medium text-gray-700">Konum</div>
@@ -147,8 +159,8 @@
 
                 <div class="flex items-center justify-between px-6 py-4 bg-white border-t border-gray-200">
                     <div class="flex flex-col">
-                        <span class="text-sm font-medium text-gray-700 mb-1">Toplam {{ $trackingsCount }}</span>
-                        <span class="text-sm text-gray-500" id="pageInfo"></span>
+                        {{-- <span class="text-sm font-medium text-gray-700 mb-1">Toplam {{ $trackingsCount }}</span> --}}
+                        <span class="text-sm text-gray-500" id="pageInfo">Toplam {{ $trackingsCount }}</span>
                     </div>
 
                     <div class="flex items-center space-x-2">
@@ -211,4 +223,43 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section("js")
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('searchInput');
+            const rows = document.querySelectorAll('.divide-y');
+            const pageInfo = document.getElementById('pageInfo');
+    
+            const total = {{ $trackingsCount }};
+    
+            function filterTable() {
+                const searchText = input.value.toLowerCase();
+                let visibleCount = 0;
+    
+                if (searchText === '') {
+                    rows.forEach(function (row) {
+                        row.style.display = '';
+                        visibleCount++;
+                    });
+                    pageInfo.textContent = "Toplam: " + total;
+                } else {
+                    rows.forEach(function (row) {
+                        const text = row.textContent.toLowerCase();
+                        if (text.includes(searchText)) {
+                            row.style.display = '';
+                            visibleCount++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+    
+                    pageInfo.textContent = visibleCount + " sonuç gösteriliyor (Toplam: " + total + ")";
+                }
+            }
+    
+            input.addEventListener('input', filterTable);
+        });
+    </script>
 @endsection
