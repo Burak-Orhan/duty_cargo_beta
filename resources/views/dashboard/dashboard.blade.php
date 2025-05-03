@@ -64,8 +64,6 @@
 
 @endsection --}}
 
-
-
 @section('content')
     <div class="p-8">
         <div class="grid grid-cols-10 gap-6">
@@ -203,14 +201,16 @@
                         </div>
 
                         <div class="flex items-center space-x-2">
-                            <span class="text-sm text-gray-500" onmouseover="mouseOver()" id="trackingCount"><img width="30px" src="https://img.icons8.com/?size=75&id=2800&format=png&color=6A7282"></span>
+                            <span class="text-sm text-gray-500" onmouseover="mouseOver()" id="trackingCount"><img
+                                    width="30px"
+                                    src="https://img.icons8.com/?size=75&id=2800&format=png&color=6A7282"></span>
                         </div>
                     </div>
                 </div>
             </div>
 
             {{-- Sağ Kısım (Kartlar) - %30 --}}
-            <div class="col-span-3 space-y-5">
+            {{-- <div class="col-span-3 space-y-5">
                 <div class="bg-gray-50 rounded-xl border border-gray-100 p-6 shadow-sm">
                     <h3 class="text-sm font-medium text-gray-500 mb-2">Toplam Kargo</h3>
                     <div class="text-2xl font-bold text-gray-900">{{ $trackingsCount ?? '0' }} <span
@@ -239,6 +239,79 @@
                     <h3 class="text-sm font-medium text-gray-500 mb-2">Teslim Edildi</h3>
                     <div class="text-2xl font-bold text-gray-900">{{ $cargoesDelivered ?? '0' }} <span
                             class="text-sm text-gray-500">adet</span></div>
+                </div>
+            </div> --}}
+
+            <div class="col-span-3 space-y-5">
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+                        <div class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-sm font-medium text-gray-500 mb-1">Toplam Kargo</h3>
+                                    <div class="text-2xl font-bold text-gray-900">{{ $trackingsCount ?? '0' }}</div>
+                                    <p class="text-xs text-gray-500">Toplam kargo sayısı</p>
+                                </div>
+                                <div class="text-2xl text-gray-400">📦</div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-sm font-medium text-green-700 mb-1">Depodan Teslim Alındı</h3>
+                                    <div class="text-2xl font-bold text-green-800">{{ $receivedFromWarehouse ?? '0' }}
+                                    </div>
+                                    <p class="text-xs text-green-700">Depo teslimi</p>
+                                </div>
+                                <div class="text-2xl text-green-400">✓</div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-sm font-medium text-purple-700 mb-1">Yola Çıktı</h3>
+                                    <div class="text-2xl font-bold text-purple-800">{{ $cargoesSetOff ?? '0' }}</div>
+                                    <p class="text-xs text-purple-700">Yolculukta</p>
+                                </div>
+                                <div class="text-2xl text-purple-400">✈️</div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-sm font-medium text-blue-700 mb-1">Dağıtımda</h3>
+                                    <div class="text-2xl font-bold text-blue-800">{{ $cargoesInDistribution ?? '0' }}</div>
+                                    <p class="text-xs text-blue-700">Dağıtım aşaması</p>
+                                </div>
+                                <div class="text-2xl text-blue-400">🚚</div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-sm font-medium text-green-700 mb-1">Teslim Edildi</h3>
+                                    <div class="text-2xl font-bold text-green-800">{{ $cargoesDelivered ?? '0' }}</div>
+                                    <p class="text-xs text-green-700">Yolculukta</p>
+                                </div>
+                                <div class="text-2xl text-green-400">✓✓</div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-sm font-medium text-red-700 mb-1">İptal Edilen</h3>
+                                    <div class="text-3xl font-bold text-red-800">{{ $cancelled ?? '0' }}</div>
+                                    <p class="text-xs text-red-700">İptal edilen kargolar</p>
+                                </div>
+                                <div class="text-3xl text-red-400">✗</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
