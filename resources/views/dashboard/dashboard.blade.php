@@ -1,6 +1,6 @@
 @extends('defaultDashboardView')
 @section('title', 'Dashboard')
-@section('breadcrumb', 'Dashboard ›')
+@section('breadcrumb', 'Dashboard')
 
 {{-- @section('content')
     <div class="bg-white py-12 sm:py-16">
@@ -147,7 +147,7 @@
 
                 <div class="flex items-center justify-between px-6 py-4 bg-white border-t border-gray-200">
                     <div class="flex flex-col">
-                        <span class="text-sm font-medium text-gray-700 mb-1">Toplam</span>
+                        <span class="text-sm font-medium text-gray-700 mb-1">Toplam {{ $trackingsCount }}</span>
                         <span class="text-sm text-gray-500" id="pageInfo"></span>
                     </div>
 
@@ -183,20 +183,30 @@
         </div>
 
         {{-- Sağ Kısım (Kartlar) - %30 --}}
-        <div class="col-span-3 space-y-6">
-            <div class="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+        <div class="col-span-3 space-y-5">
+            <div class="bg-gray-50 rounded-xl border border-gray-100 p-6 shadow-sm">
                 <h3 class="text-sm font-medium text-gray-500 mb-2">Toplam Kargo</h3>
                 <div class="text-2xl font-bold text-gray-900">{{ $trackingsCount ?? '0' }} <span class="text-sm text-gray-500">adet</span></div>
             </div>
 
-            <div class="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
-                <h3 class="text-sm font-medium text-gray-500 mb-2">Dağıtımda</h3>
-                <div class="text-2xl font-bold text-gray-900">485 <span class="text-sm text-gray-500">adet</span></div>
+            <div class="bg-green-200 rounded-xl border border-gray-100 p-6 shadow-sm">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Depodan Teslim Alındı</h3>
+                <div class="text-2xl font-bold text-gray-900">{{ $receivedFromWarehouse ?? "0" }} <span class="text-sm text-gray-500">adet</span></div>
             </div>
 
-            <div class="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
-                <h3 class="text-sm font-medium text-gray-500 mb-2">Teslim Edilen</h3>
-                <div class="text-2xl font-bold text-gray-900">789 <span class="text-sm text-gray-500">adet</span></div>
+            <div class="bg-purple-100 rounded-xl border border-gray-100 p-6 shadow-sm">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Yola Çıktı</h3>
+                <div class="text-2xl font-bold text-gray-900">{{ $cargoesSetOff ?? "0" }} <span class="text-sm text-gray-500">adet</span></div>
+            </div>
+
+            <div class="bg-blue-100 rounded-xl border border-gray-100 p-6 shadow-sm">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Dağıtımda</h3>
+                <div class="text-2xl font-bold text-gray-900">{{ $cargoesInDistribution ?? "0" }} <span class="text-sm text-gray-500">adet</span></div>
+            </div>
+
+            <div class="bg-green-100 rounded-xl border border-gray-100 p-6   shadow-sm">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">Teslim Edildi</h3>
+                <div class="text-2xl font-bold text-gray-900">{{ $cargoesDelivered ?? "0" }} <span class="text-sm text-gray-500">adet</span></div>
             </div>
         </div>
     </div>

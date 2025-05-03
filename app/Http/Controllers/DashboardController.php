@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cargos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,7 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
+        Carbon::setLocale("tr");
         $user = Auth::user();
 
         $trackings = DB::table('cargos as c')
@@ -34,20 +36,27 @@ class DashboardController extends Controller
             ->orderByDesc('c.id')
             ->get();
 
-        Carbon::setLocale("tr");
         $trackingsCount = $trackings->count();
+        $receivedFromWarehouse = Cargos::whereRaw("status = 1")->count();
+        $cargoesSetOff = Cargos::whereRaw("status = 2")->count();
+        $cargoesInDistribution = Cargos::whereRaw("status = 3")->count();
+        $cargoesDelivered = Cargos::whereRaw("status = 4")->count();
+        
         $firstTracking = $trackings->first();
-
-        $lastTracking = $firstTracking ? Carbon::parse($firstTracking->customer_purchase_date)->diffForHumans() : null;
-        $lastTrackingLong = $firstTracking ? Carbon::parse($firstTracking->customer_purchase_date)->format('d.m.Y H:i') : null;
+        $lastTrackingTime = $firstTracking ? Carbon::parse($firstTracking->customer_purchase_date)->diffForHumans() : null;
+        $lastTrackingLongTime = $firstTracking ? Carbon::parse($firstTracking->customer_purchase_date)->format('d.m.Y H:i') : null;
 
         // return view("dashboard.dashboard", compact("trackings", "user", "trackingsCount", "lastTracking", "lastTrackingLong"));
         return view("dashboard.dashboard")->with([
-            "trackings" => $trackings,
             "user" => $user,
+            "trackings" => $trackings,
             "trackingsCount" => $trackingsCount,
-            "lastTracking" => $lastTracking,
-            "lastTrackingLong" => $lastTrackingLong,
+            "lastTrackingTime" => $lastTrackingTime,
+            "lastTrackingLongTime" => $lastTrackingLongTime,
+            "receivedFromWarehouse" => $receivedFromWarehouse,
+            "cargoesSetOff" => $cargoesSetOff,
+            "cargoesInDistribution" => $cargoesInDistribution,
+            "cargoesDelivered" => $cargoesDelivered,
         ]);
     }
 
