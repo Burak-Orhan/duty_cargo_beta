@@ -91,12 +91,28 @@
                                 </svg>
                                 Kaydet
                             </button>
+
+                            {{-- Sayfa başına kaç adet görüneceğini ayarlama --}}
+                            <form method="GET" action="{{ route('dashboard') }}" class="mb-4 flex items-center gap-2">
+                                <input type="hidden" name="search" value="{{ request('search') }}">
+                                <label for="per_page">Sayfa başına:</label>
+                                <select name="per_page" id="per_page" onchange="this.form.submit()"
+                                    class="border rounded px-2 py-1">
+                                    @foreach ([10, 20, 50, 100] as $size)
+                                        <option value="{{ $size }}"
+                                            {{ request('per_page', 10) == $size ? 'selected' : '' }}>
+                                            {{ $size }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+
                         </div>
 
                         <form method="GET" action="{{ route('dashboard') }}">
                             <div class="relative">
-                                <input type="text" id="searchInput" name="search"
-                                    placeholder="İsim, e-posta veya kargo kodu ara..." value="{{ request('search') }}"
+                                <input type="text" id="searchInput" name="search" placeholder="Duty Cargo"
+                                    value="{{ request('search') }}"
                                     class="w-64 pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-colors bg-white/80" />
                                 <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,7 +138,7 @@
                         <div class="divide-y divide-gray-200">
                             <div class="grid grid-cols-5 gap-10 p-5 hover:bg-gray-50/30 transition-colors"
                                 style="background-color: rgba(255, 255, 255, 0.8);">
-                                <div class="text-gray-600">{{ $user->email }}</div>
+                                <div class="text-gray-600">{{ $t->user_email }}</div>
                                 <div class="text-gray-600">{{ $t->users_information_city }},
                                     {{ $t->users_information_country }}</div>
                                 <div>
@@ -159,7 +175,8 @@
                                 </div>
                                 <div class="text-gray-900 font-medium">{{ $t->trackingCode }}</div>
                                 <div>
-                                    <form action="{{ route('tracking.post') }}" method="POST" id="{{ $t->trackingCode }}">
+                                    <form action="{{ route('tracking.post') }}" method="POST"
+                                        id="{{ $t->trackingCode }}">
                                         @csrf
                                         <input type="hidden" name="trackingCode" value="{{ $t->trackingCode }}">
                                         <button type="submit"
@@ -179,25 +196,60 @@
                         </div>
 
                         <div class="flex items-center space-x-2">
-                            <button class="p-2 text-gray-400 hover:text-gray-600 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 19l-7-7 7-7"></path>
-                                </svg>
-                            </button>
+                            @php
+                                $currentPage = $trackings->currentPage();
+                                $lastPage = $trackings->lastPage();
+                            @endphp
 
-                            <button class="px-3 py-1 text-white bg-indigo-600 rounded-lg">1</button>
-                            <button class="px-3 py-1 text-gray-600 hover:bg-gray-50 rounded-lg">2</button>
-                            <button class="px-3 py-1 text-gray-600 hover:bg-gray-50 rounded-lg">3</button>
-                            <button class="px-3 py-1 text-gray-600 hover:bg-gray-50 rounded-lg">4</button>
-                            <span class="px-2 text-gray-500">...</span>
+                            <div class="flex items-center gap-1"> {{-- mt-4 --}}
+                                @if ($currentPage > 1)
+                                    <a href="{{ $trackings->url($currentPage - 1) . '&' . http_build_query(request()->except('page')) }}"
+                                        class="p-2 text-gray-600 hover:text-gray-900 rounded-lg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                    </a>
+                                @else
+                                    {{-- İlk Sayfada İse Pasif --}}
+                                    <span class="p-2 text-gray-300 cursor-not-allowed rounded-lg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                    </span>
+                                @endif
 
-                            <button class="p-2 text-gray-600 hover:text-gray-900 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                    </path>
-                                </svg>
-                            </button>
+                                @for ($i = 1; $i <= $lastPage; $i++)
+                                    @if ($i === $currentPage)
+                                        <button
+                                            class="px-3 py-1 text-white bg-indigo-600 rounded-lg">{{ $i }}</button>
+                                    @elseif ($i === 1 || $i === $lastPage || ($i >= $currentPage - 1 && $i <= $currentPage + 1))
+                                        <a href="{{ $trackings->url($i) . '&' . http_build_query(request()->except('page')) }}"
+                                            class="px-3 py-1 text-gray-600 hover:bg-gray-50 rounded-lg">{{ $i }}</a>
+                                    @elseif ($i === $currentPage - 2 || $i === $currentPage + 2)
+                                        <span class="px-2 text-gray-500">...</span>
+                                    @endif
+                                @endfor
+
+                                @if ($currentPage < $lastPage)
+                                    <a href="{{ $trackings->url($currentPage + 1) . '&' . http_build_query(request()->except('page')) }}"
+                                        class="p-2 text-gray-600 hover:text-gray-900 rounded-lg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                @else
+                                    {{-- Son Sayfada İse Pasif --}}
+                                    <span class="p-2 text-gray-300 cursor-not-allowed rounded-lg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </span>
+                                @endif
+                            </div>
                         </div>
 
                         <div class="flex items-center space-x-2">
@@ -208,39 +260,6 @@
                     </div>
                 </div>
             </div>
-
-            {{-- Sağ Kısım (Kartlar) - %30 --}}
-            {{-- <div class="col-span-3 space-y-5">
-                <div class="bg-gray-50 rounded-xl border border-gray-100 p-6 shadow-sm">
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">Toplam Kargo</h3>
-                    <div class="text-2xl font-bold text-gray-900">{{ $trackingsCount ?? '0' }} <span
-                            class="text-sm text-gray-500">adet</span></div>
-                </div>
-
-                <div class="bg-green-200 rounded-xl border border-gray-100 p-6 shadow-sm">
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">Depodan Teslim Alındı</h3>
-                    <div class="text-2xl font-bold text-gray-900">{{ $receivedFromWarehouse ?? '0' }} <span
-                            class="text-sm text-gray-500">adet</span></div>
-                </div>
-
-                <div class="bg-purple-100 rounded-xl border border-gray-100 p-6 shadow-sm">
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">Yola Çıktı</h3>
-                    <div class="text-2xl font-bold text-gray-900">{{ $cargoesSetOff ?? '0' }} <span
-                            class="text-sm text-gray-500">adet</span></div>
-                </div>
-
-                <div class="bg-blue-100 rounded-xl border border-gray-100 p-6 shadow-sm">
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">Dağıtımda</h3>
-                    <div class="text-2xl font-bold text-gray-900">{{ $cargoesInDistribution ?? '0' }} <span
-                            class="text-sm text-gray-500">adet</span></div>
-                </div>
-
-                <div class="bg-green-100 rounded-xl border border-gray-100 p-6   shadow-sm">
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">Teslim Edildi</h3>
-                    <div class="text-2xl font-bold text-gray-900">{{ $cargoesDelivered ?? '0' }} <span
-                            class="text-sm text-gray-500">adet</span></div>
-                </div>
-            </div> --}}
 
             <div class="col-span-3 space-y-5">
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
@@ -283,7 +302,8 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="text-sm font-medium text-blue-700 mb-1">Dağıtımda</h3>
-                                    <div class="text-2xl font-bold text-blue-800">{{ $cargoesInDistribution ?? '0' }}</div>
+                                    <div class="text-2xl font-bold text-blue-800">{{ $cargoesInDistribution ?? '0' }}
+                                    </div>
                                     <p class="text-xs text-blue-700">Dağıtım aşaması</p>
                                 </div>
                                 <div class="text-2xl text-blue-400">🚚</div>
@@ -305,7 +325,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="text-sm font-medium text-red-700 mb-1">İptal Edilen</h3>
-                                    <div class="text-3xl font-bold text-red-800">{{ $cancelled ?? '0' }}</div>
+                                    <div class="text-3xl font-bold text-red-800">{{ $cargoesCanceled ?? '0' }}</div>
                                     <p class="text-xs text-red-700">İptal edilen kargolar</p>
                                 </div>
                                 <div class="text-3xl text-red-400">✗</div>

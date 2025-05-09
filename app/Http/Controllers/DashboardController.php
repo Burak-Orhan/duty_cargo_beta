@@ -14,6 +14,7 @@ class DashboardController extends Controller
         Carbon::setLocale("tr");
         $user = Auth::user();
         $search = $request->input('search');
+        $perPage = $request->input('per_page', 10); 
 
         $query = DB::table('cargos as c')
             ->select([
@@ -44,13 +45,15 @@ class DashboardController extends Controller
             });
         }
 
-        $trackings = $query->orderByDesc('c.id')->get();
+        $trackings = $query->orderByDesc('c.id')->paginate($perPage);
+        $trackingsCount = $trackings->total();
+        // $trackingsCount = $trackings->count();
 
-        $trackingsCount = $trackings->count();
         $receivedFromWarehouse = Cargos::where("status", 1)->count();
         $cargoesSetOff = Cargos::where("status", 2)->count();
         $cargoesInDistribution = Cargos::where("status", 3)->count();
         $cargoesDelivered = Cargos::where("status", 4)->count();
+        $cargoesCanceled = Cargos::where("status", 5)->count();
 
         $firstTracking = $trackings->first();
         $lastTrackingTime = $firstTracking ? Carbon::parse($firstTracking->customer_purchase_date)->diffForHumans() : null;
@@ -66,6 +69,7 @@ class DashboardController extends Controller
             "cargoesSetOff" => $cargoesSetOff,
             "cargoesInDistribution" => $cargoesInDistribution,
             "cargoesDelivered" => $cargoesDelivered,
+            "cargoesCanceled" => $cargoesCanceled,
             "search" => $search,
         ]);
     }
