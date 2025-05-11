@@ -45,6 +45,15 @@ class DashboardController extends Controller
             });
         }
 
+        $companies = DB::table("companies as co")
+        ->select([
+            "co.id as companies_id",
+            "co.name as companies_name",
+            "co.country as companies_country"
+        ])->get();
+
+        // dd($companies);
+
         $trackings = $query->orderByDesc('c.id')->paginate($perPage);
         $trackingsCount = $trackings->total();
         // $trackingsCount = $trackings->count();
@@ -71,7 +80,12 @@ class DashboardController extends Controller
             "cargoesDelivered" => $cargoesDelivered,
             "cargoesCanceled" => $cargoesCanceled,
             "search" => $search,
+            "companies" => $companies,
         ]);
+    }
+
+    public function newCargoCreate(){
+        
     }
 
     // public function dashboard()

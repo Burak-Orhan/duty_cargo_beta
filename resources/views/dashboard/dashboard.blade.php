@@ -74,7 +74,7 @@
                     <div class="flex justify-between items-center p-4 border-b border-gray-200"
                         style="background-color: rgba(255, 255, 255, 0.9);">
                         <div class="flex items-center space-x-3">
-                            <button
+                            <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
                                 class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -82,7 +82,7 @@
                                 </svg>
                                 Yeni Ekle
                             </button>
-                            <button
+                            {{-- <button
                                 class="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -90,22 +90,9 @@
                                     </path>
                                 </svg>
                                 Kaydet
-                            </button>
+                            </button> --}}
 
-                            {{-- Sayfa başına kaç adet görüneceğini ayarlama --}}
-                            <form method="GET" action="{{ route('dashboard') }}" class="mb-4 flex items-center gap-2">
-                                <input type="hidden" name="search" value="{{ request('search') }}">
-                                <label for="per_page">Sayfa başına:</label>
-                                <select name="per_page" id="per_page" onchange="this.form.submit()"
-                                    class="border rounded px-2 py-1">
-                                    @foreach ([10, 20, 50, 100] as $size)
-                                        <option value="{{ $size }}"
-                                            {{ request('per_page', 10) == $size ? 'selected' : '' }}>
-                                            {{ $size }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </form>
+
 
                         </div>
 
@@ -175,8 +162,7 @@
                                 </div>
                                 <div class="text-gray-900 font-medium">{{ $t->trackingCode }}</div>
                                 <div>
-                                    <form action="{{ route('tracking.post') }}" method="POST"
-                                        id="{{ $t->trackingCode }}">
+                                    <form action="{{ route('tracking.post') }}" method="POST" id="{{ $t->trackingCode }}">
                                         @csrf
                                         <input type="hidden" name="trackingCode" value="{{ $t->trackingCode }}">
                                         <button type="submit"
@@ -253,10 +239,27 @@
                         </div>
 
                         <div class="flex items-center space-x-2">
-                            <span class="text-sm text-gray-500" onmouseover="mouseOver()" id="trackingCount"><img
-                                    width="30px"
-                                    src="https://img.icons8.com/?size=75&id=2800&format=png&color=6A7282"></span>
+                            {{-- Sayfa başına kaç adet görüneceğini ayarlama --}}
+                            <form method="GET" action="{{ route('dashboard') }}" class="flex items-center gap-2">
+                                {{-- mb-4 --}}
+                                <input type="hidden" name="search" value="{{ request('search') }}">
+                                <label for="per_page">Sayfa başına:</label>
+                                <select name="per_page" id="per_page" onchange="this.form.submit()"
+                                    {{-- class="border rounded px-2 py-1"> --}}
+                                    class="py-1.5 sm:py-2 px-3 pe-9 block w-full sm:w-auto border-gray-200 shadow-2xs -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg sm:text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                                    @foreach ([10, 20, 50, 100] as $size)
+                                        <option value="{{ $size }}"
+                                            {{ request('per_page', 10) == $size ? 'selected' : '' }}>
+                                            {{ $size }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
                         </div>
+
+                        {{-- <span class="text-sm text-gray-500" onmouseover="mouseOver()" id="trackingCount"><img
+                                    width="30px"
+                                    src="https://img.icons8.com/?size=75&id=2800&format=png&color=6A7282"></span> --}}
                     </div>
                 </div>
             </div>
@@ -314,7 +317,8 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="text-sm font-medium text-green-700 mb-1">Teslim Edildi</h3>
-                                    <div class="text-2xl font-bold text-green-800">{{ $cargoesDelivered ?? '0' }}</div>
+                                    <div class="text-2xl font-bold text-green-800">{{ $cargoesDelivered ?? '0' }}
+                                    </div>
                                     <p class="text-xs text-green-700">Yolculukta</p>
                                 </div>
                                 <div class="text-2xl text-green-400">✓✓</div>
@@ -336,9 +340,71 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal --}}
+    <form action="{{ route('dd') }}" method="post">
+        @csrf
+        <div id="crud-modal" tabindex="-1" aria-hidden="true"
+            class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full flex justify-center items-center">
+            <div class="relative w-full max-w-md max-h-full">
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                    <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                            Yeni Ürün Ekle
+                        </h3>
+                        <button type="button" class="text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            data-modal-toggle="crud-modal">
+                            ×
+                        </button>
+                    </div>
+
+                    <div class="p-4 space-y-4">
+                        <label for="product-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Kargo Durumu Seçiniz
+                        </label>
+                        <select name="company_id" id="company_id"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            required>
+                            <option selected disabled>Satıcı Seçin</option>
+                            <option value="1">Depodan Teslim Alındı</option>
+                            <option value="2">Yola Çıktı</option>
+                            <option value="3">Dağıtımda</option>
+                            <option value="4">Teslim Edildi</option>
+                            <option value="5">İptal Edildi</option>
+                        </select>
+                    </div>
+
+                    <div class="p-4 space-y-4">
+                        <label for="company_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Satıcı Seçiniz
+                        </label>
+                        <select name="company_id" id="company_id"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            required>
+                            <option selected disabled>Satıcı Seçin</option>
+                            @foreach ($companies as $co)
+                                <option value="{{ $co->companies_id }}">{{ $co->companies_name }} /
+                                    {{ $co->companies_country }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="flex justify-end p-4 border-t border-gray-200 dark:border-gray-600">
+                        <button type="submit"
+                            class="text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            Kaydet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')
+    <script src="https://unpkg.com/flowbite@1.6.5/dist/flowbite.min.js"></script>
+
     <script type="module">
         import {
             toastFire
