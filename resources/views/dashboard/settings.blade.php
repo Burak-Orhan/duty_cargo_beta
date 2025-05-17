@@ -130,7 +130,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Açıklama (Biyografi)</label>
-                            <input type="text" name="bio" value="{{ old('bio', Auth::user()->bio ?? '') }}"
+                            <input type="text" name="bio" disabled value="{{ old('bio', Auth::user()->bio ?? '') }}"
                                 class="mt-1 block w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                         </div>
                     </div>
