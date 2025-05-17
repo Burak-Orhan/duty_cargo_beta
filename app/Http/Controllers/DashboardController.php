@@ -60,8 +60,6 @@ class DashboardController extends Controller
             $newTracking_Code = 'KRG0000';
         }
 
-        // dd($companies);
-
         $trackings = $query->orderByDesc('c.id')->paginate($perPage);
         $trackingsCount = $trackings->total();
         // $trackingsCount = $trackings->count();

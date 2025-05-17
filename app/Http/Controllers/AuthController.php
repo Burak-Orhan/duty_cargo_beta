@@ -12,28 +12,32 @@ use League\Uri\Contracts\UserInfoInterface;
 
 class AuthController extends Controller
 {
-    public function login(){
+    public function login()
+    {
         return view("auth.login");
     }
 
-    public function loginPost(Request $request){
-        $credentials  = $request->validate([
+    public function loginPost(Request $request)
+    {
+        $credentials = $request->validate([
             "email" => ["required", "email"],
             "password" => ["required"]
         ]);
 
-        if(Auth::attempt($credentials)){
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended("dashboard");
         }
         return back()->with("error", "Email Veya Şifre Hatalı")->withInput();
     }
 
-    public function register(){
+    public function register()
+    {
         return view("auth.register");
     }
 
-    public function registerPost(Request $request){
+    public function registerPost(Request $request)
+    {
         $request->validate([
             "name" => ["required", "string", "max:255"],
             "email" => ["required", "email", "max:255", "unique:users"],
@@ -54,41 +58,45 @@ class AuthController extends Controller
             "address" => $request->address
         ]);
 
-        if($user->save() || $userInformation->save()){
+        if ($user->save() || $userInformation->save()) {
             Auth::login($user);
             return redirect()->route("dashboard")->with("success", "Başarıyla Kayıt Olundu");
         }
         return redirect()->back()->with("error", "Kayıt Olurken Bir Hata Oluştu");
     }
 
-    public function forgetPassword(){
+    public function forgetPassword()
+    {
         return view("auth.forgetPassword");
     }
 
-    public function forgetPasswordPost(Request $request){
+    public function forgetPasswordPost(Request $request)
+    {
         $request->validate([
-            "email" => ["required", "email", "unique:users"],
-            "password" => ["required", "min:8"],
-            "password_verify" => ["required", "same:password"],
+            "email" => ["required", "email"],
+            "new_password" => ["required", "min:8"],
+            "new_password_verify" => ["required", "same:new_password"],
         ]);
 
         $user = User::where("email", $request->email)->first();
 
-        if(!$user) 
+        if (!$user) {
             return redirect()->back()->with("error", "Kullanıcı Bulunamadı");
-
-        if($request->password === $request->password_verifly){
-            $user->password = Hash::make($request->password);
-
-            if($user->save())
-                return redirect()->route("login")->with("success", "Şifre Başarıyla Güncellenmiştir.");
-
-            return redirect()->back()->with("error", "Şifre Güncellenirken Bir Hata Oluştu");
         }
-        return redirect()->back()->with("error", "Şifreler Eşleşmiyor");
+
+        $user->password = Hash::make($request->new_password);
+
+        if ($user->save()) {
+            return redirect()->route("login")->with("success", "Şifre Başarıyla Güncellenmiştir.");
+        }
+
+        return redirect()->back()->with("error", "Şifre Güncellenirken Bir Hata Oluştu");
     }
 
-    public function logout(){
+
+
+    public function logout()
+    {
         Auth::logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();
