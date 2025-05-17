@@ -92,8 +92,6 @@
                                 Kaydet
                             </button> --}}
 
-
-
                         </div>
 
                         <form method="GET" action="{{ route('dashboard') }}">
@@ -109,16 +107,14 @@
                                 </div>
                             </div>
                         </form>
-
                     </div>
 
 
                     <div class="grid grid-cols-5 gap-10 p-5 border-b border-gray-200 bg-white/90">
                         <div class="font-medium text-gray-700">Kargo Tarihi</div>
                         <div class="font-medium text-gray-700">Konum</div>
-                        <div class="font-medium text-gray-700">Durum</div>
+                        <div class="font-medium text-gray-700">Kargo Durumu</div>
                         <div class="font-medium text-gray-700">Kargo No</div>
-                        <div class="font-medium text-gray-700">Tarihi</div>
                         <div class="font-medium text-gray-700"></div>
                     </div>
 
@@ -348,7 +344,7 @@
         <div id="crud-modal" tabindex="-1" aria-hidden="true"
             {{-- class add flex  --}}
             class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full justify-center items-center">
-            <div class="relative w-full max-w-md max-h-full">
+            <div class="relative w-full max-w-2xl max-h-full">
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
 
                     <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">

@@ -4,6 +4,11 @@
     <link rel="stylesheet" href="{{ asset('assets/css/tracking.css') }}">
 @endsection
 
+@php
+    use Carbon\Carbon;
+    Carbon::setLocale('tr');
+@endphp
+
 @section('content')
     <!DOCTYPE html>
     <html lang="tr">
@@ -76,7 +81,7 @@
                                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                                         </path>
                                     </svg>
-                                    Çıkış: {{ $trackingCode->company_post_date }}
+                                    Çıkış: {{ Carbon::parse($trackingCode->company_post_date)->translatedFormat('d F Y') }}
                                 </div>
                             </div>
                         </div>
@@ -102,7 +107,8 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    Tahmini: 2 Mayıs 2024
+                                    Tahmini:
+                                    {{ Carbon::parse($trackingCode->customer_purchase_date)->addDays(2)->translatedFormat('d F Y') }}
                                 </div>
                             </div>
                         </div>
@@ -137,7 +143,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                 </svg>
-                                                1 Mayıs 2024 • 11:25 UTC+02
+                                                {{ Carbon::parse($trackingCode->company_post_date)->translatedFormat('d F Y') }} • 11:25 UTC+02
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +173,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                 </svg>
-                                                1 Mayıs 2024 • 12:45 UTC+02
+                                                {{ Carbon::parse($trackingCode->company_post_date)->addDays(1)->translatedFormat('d F Y') }} • 12:45 UTC+02
                                             </div>
                                         </div>
                                     </div>
@@ -197,7 +203,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                 </svg>
-                                                2 Mayıs 2024 • 09:30 UTC+02
+                                                {{ Carbon::parse($trackingCode->company_post_date)->addDays(2)->translatedFormat('d F Y') }} • 09:30 UTC+02
                                             </div>
                                         </div>
                                     </div>
@@ -225,7 +231,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                 </svg>
-                                                {{ $trackingCode->customer_purchase_date }} • 14:15 UTC+02
+                                                {{ Carbon::parse($trackingCode->company_post_date)->addDays(2)->translatedFormat('d F Y') }} • 14:15 UTC+02
                                             </div>
                                         </div>
                                     </div>
@@ -248,7 +254,9 @@
                             </div>
                             <div>
                                 <p class="text-sm font-medium" style="color: #4F46E5">Tahmini Teslimat</p>
-                                <p class="text-lg font-bold" style="color: #4F46E5">2 Mayıs 2024, 17:00</p>
+                                <p class="text-lg font-bold" style="color: #4F46E5">
+                                    {{ Carbon::parse($trackingCode->company_post_date)->addDays(2)->translatedFormat('d F Y') }}
+                                    , 17:00</p>
                             </div>
                         </div>
                         <div>
