@@ -342,7 +342,7 @@
     </div>
 
     {{-- Modal --}}
-    <form action="{{ route('dd') }}" method="post">
+    <form action="{{ route('dashboard.post') }}" method="post">
         @csrf
         <div id="crud-modal" tabindex="-1" aria-hidden="true"
             class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full flex justify-center items-center">
@@ -351,7 +351,7 @@
 
                     <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                            Yeni Ürün Ekle
+                            Yeni Kargo Oluştur - {{ $newTracking_Code }}
                         </h3>
                         <button type="button" class="text-gray-400 hover:text-gray-900 dark:hover:text-white"
                             data-modal-toggle="crud-modal">
@@ -360,10 +360,10 @@
                     </div>
 
                     <div class="p-4 space-y-4">
-                        <label for="product-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Kargo Durumu Seçiniz
                         </label>
-                        <select name="company_id" id="company_id"
+                        <select name="status" id="status"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             required>
                             <option selected disabled>Satıcı Seçin</option>
@@ -384,11 +384,12 @@
                             required>
                             <option selected disabled>Satıcı Seçin</option>
                             @foreach ($companies as $co)
-                                <option value="{{ $co->companies_id }}">{{ $co->companies_name }} /
-                                    {{ $co->companies_country }}</option>
+                                <option value="{{ $co->companies_id }}">{{ $co->companies_name }} / {{ $co->companies_country }}</option>
                             @endforeach
                         </select>
                     </div>
+
+                <input type="hidden" name="tracking_code" id="tracking_code" value="{{ $newTracking_Code }}">
 
                     <div class="flex justify-end p-4 border-t border-gray-200 dark:border-gray-600">
                         <button type="submit"

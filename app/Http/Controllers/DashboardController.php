@@ -14,7 +14,7 @@ class DashboardController extends Controller
         Carbon::setLocale("tr");
         $user = Auth::user();
         $search = $request->input('search');
-        $perPage = $request->input('per_page', 10); 
+        $perPage = $request->input('per_page', 10);
 
         $query = DB::table('cargos as c')
             ->select([
@@ -46,11 +46,19 @@ class DashboardController extends Controller
         }
 
         $companies = DB::table("companies as co")
-        ->select([
-            "co.id as companies_id",
-            "co.name as companies_name",
-            "co.country as companies_country"
-        ])->get();
+            ->select([
+                "co.id as companies_id",
+                "co.name as companies_name",
+                "co.country as companies_country"
+            ])->get();
+
+        $lastCargo = Cargos::orderBy("id", "desc")->first();
+        if ($lastCargo && preg_match('/KRG(\d+)/', $lastCargo->tracking_code, $matches)) {
+            $number = (int) $matches[1] + 1;
+            $newTracking_Code = 'KRG' . str_pad($number, 4, '0', STR_PAD_LEFT);
+        } else {
+            $newTracking_Code = 'KRG0000';
+        }
 
         // dd($companies);
 
@@ -81,11 +89,13 @@ class DashboardController extends Controller
             "cargoesCanceled" => $cargoesCanceled,
             "search" => $search,
             "companies" => $companies,
+            "newTracking_Code" => $newTracking_Code,
         ]);
     }
 
-    public function newCargoCreate(){
-        
+    public function dashboardPost(Request $request)
+    {
+        dd($request->all());
     }
 
     // public function dashboard()
