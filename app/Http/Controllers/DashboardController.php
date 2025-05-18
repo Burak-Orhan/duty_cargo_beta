@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cargos;
+use App\Models\Cities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,8 @@ class DashboardController extends Controller
                 "co.country as companies_country"
             ])->get();
 
+        $cities = Cities::get();
+
         $lastCargo = Cargos::orderBy("id", "desc")->first();
         if ($lastCargo && preg_match('/KRG(\d+)/', $lastCargo->tracking_code, $matches)) {
             $number = (int) $matches[1] + 1;
@@ -88,6 +91,17 @@ class DashboardController extends Controller
             "search" => $search,
             "companies" => $companies,
             "newTracking_Code" => $newTracking_Code,
+            "cities" => $cities,
+        ]);
+    }
+
+    public function cityInfo($id)
+    {
+        $city = Cities::findOrFail($id);
+
+        return response()->json([
+            'state' => $city->state,
+            'district' => $city->district,
         ]);
     }
 

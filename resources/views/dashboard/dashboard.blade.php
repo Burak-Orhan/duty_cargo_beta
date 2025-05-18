@@ -348,8 +348,8 @@
     {{-- Modal --}}
     <form action="{{ route('dashboard.post') }}" method="post">
         @csrf
-        <div id="crud-modal" tabindex="-1" aria-hidden="true"
-            class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full flex justify-center items-center bg-black/40">
+        <div id="crud-modal" tabindex="-1" aria-hidden="true" {{-- add class flex --}}
+            class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full justify-center items-center bg-black/40">
             <div class="relative w-full max-w-lg max-h-full">
                 <div class="relative bg-white rounded-lg shadow-lg dark:bg-gray-800">
 
@@ -407,22 +407,21 @@
                             <div>
                                 <label for="users_information_phone"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefon</label>
-                                <input type="tel" name="users_information__phone" id="users_information__phone"
-                                    placeholder="05xx xxx xx xx" required pattern="[0-9]{10,15}"
+                                <input type="tel" name="users_information_phone" id="users_information__phone"
+                                    placeholder="05xx xxx xx xx" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label for="users_information_city"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ülke</label>
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">İl</label>
                                 <select name="users_information_city" id="users_information_city"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                                     required>
-                                    <option selected disabled>Satıcı Seçin</option>
-                                    @foreach ($companies as $co)
-                                        <option value="{{ $co->companies_id }}">{{ $co->companies_name }} /
-                                            {{ $co->companies_country }}</option>
+                                    <option selected disabled>İl Seçin</option>
+                                    @foreach ($cities as $ci)
+                                        <option value="{{ $ci->id }}">{{ $ci->city }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -437,7 +436,7 @@
                                 <label for="users_information_district"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Semt</label>
                                 <input type="text" name="users_information_district" id="users_information_district"
-                                    placeholder="Semt" required pattern="[0-9]{4,10}"
+                                    placeholder="Semt" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             </div>
                         </div>
@@ -508,6 +507,21 @@
             }
 
             input.addEventListener('input', filterTable);
+        });
+
+        document.getElementById('users_information_city').addEventListener('change', function() {
+            let cityId = this.value;
+            console.log(cityId);
+
+            fetch(`/get-city-info/${cityId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('users_information_state').value = data.state;
+                    document.getElementById('users_information_district').value = data.district;
+                })
+                .catch(error => {
+                    console.error('Şehir bilgisi alınamadı:', error);
+                });
         });
     </script>
 @endsection
