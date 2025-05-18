@@ -451,7 +451,7 @@
 
                     <div
                         class="flex justify-end p-6 border-t border-gray-200 dark:border-gray-700 bg-indigo-50 dark:bg-gray-900 rounded-b-lg">
-                        <button type="submit"
+                        <button type="submit" id="modalSubmitButton"
                             class="text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-lg text-base px-6 py-2.5 text-center shadow transition-all">
                             Kaydet
                         </button>
@@ -470,10 +470,12 @@
             toastFire
         } from '{{ asset('assets/js/toastFire.js') }}';
 
+        // Last Cargo İnformation
         window.mouseOver = function() {
             toastFire("info", "Son Kargo Tarihi: {{ $lastTrackingTime }} ({{ $lastTrackingLongTime }})");
         }
 
+        // Footer content 
         document.addEventListener('DOMContentLoaded', function() {
             const input = document.getElementById('searchInput');
             const rows = document.querySelectorAll('.divide-y');
@@ -509,9 +511,9 @@
             input.addEventListener('input', filterTable);
         });
 
+        // Modal
         document.getElementById('users_information_city').addEventListener('change', function() {
             let cityId = this.value;
-            console.log(cityId);
 
             fetch(`/get-city-info/${cityId}`)
                 .then(response => response.json())
@@ -522,6 +524,10 @@
                 .catch(error => {
                     console.error('Şehir bilgisi alınamadı:', error);
                 });
+        });
+
+        document.getElementById("modalSubmitButton").addEventListener("click", function(){
+            
         });
     </script>
 @endsection
