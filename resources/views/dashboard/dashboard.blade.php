@@ -123,61 +123,70 @@
                         <div class="font-medium text-gray-700"></div>
                     </div>
 
-                    @foreach ($trackings as $t)
-                        <div class="divide-y divide-gray-200">
-                            <div class="grid grid-cols-5 gap-10 p-5 hover:bg-gray-50/30 transition-colors"
-                                style="background-color: rgba(255, 255, 255, 0.8);">
-                                {{-- <div class="text-gray-600">{{ date("d.m.Y", strtotime($t->customer_purchase_date)) }}</div> --}}
-                                <div class="text-gray-600">
-                                    {{ Carbon::parse($t->customer_purchase_date)->translatedFormat('d F Y') }}</div>
-                                <div class="text-gray-600">{{ $t->users_information_city }},
-                                    {{ $t->users_information_country }}</div>
-                                <div>
-                                    @switch($t->cargo_status)
-                                        @case(1)
-                                            <span class="px-2.5 py-1 text-sm rounded-full bg-green-200 text-green-800">Depo Teslim
-                                                Aldı</span>
-                                        @break
+                    @if ($trackings->count() > 0)
+                        @foreach ($trackings as $t)
+                            <div class="divide-y divide-gray-200">
+                                <div class="grid grid-cols-5 gap-10 p-5 hover:bg-gray-50/30 transition-colors"
+                                    style="background-color: rgba(255, 255, 255, 0.8);">
+                                    {{-- <div class="text-gray-600">{{ date("d.m.Y", strtotime($t->customer_purchase_date)) }}</div> --}}
+                                    <div class="text-gray-600">
+                                        {{ Carbon::parse($t->customer_purchase_date)->translatedFormat('d F Y') }}</div>
+                                    <div class="text-gray-600">{{ $t->users_information_city }}</div>
+                                    <div>
+                                        @switch($t->cargo_status)
+                                            @case(1)
+                                                <span class="px-2.5 py-1 text-sm rounded-full bg-green-200 text-green-800">Depo
+                                                    Teslim
+                                                    Aldı</span>
+                                            @break
 
-                                        @case(2)
-                                            <span class="px-2.5 py-1 text-sm rounded-full bg-purple-100 text-purple-800">Yola
-                                                Çıktı</span>
-                                        @break
+                                            @case(2)
+                                                <span class="px-2.5 py-1 text-sm rounded-full bg-purple-100 text-purple-800">Yola
+                                                    Çıktı</span>
+                                            @break
 
-                                        @case(3)
-                                            <span
-                                                class="px-2.5 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Dağıtımda</span>
-                                        @break
+                                            @case(3)
+                                                <span
+                                                    class="px-2.5 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Dağıtımda</span>
+                                            @break
 
-                                        @case(4)
-                                            <span class="px-2.5 py-1 text-sm rounded-full bg-green-100 text-green-800">Teslim
-                                                Edildi</span>
-                                        @break
+                                            @case(4)
+                                                <span class="px-2.5 py-1 text-sm rounded-full bg-green-100 text-green-800">Teslim
+                                                    Edildi</span>
+                                            @break
 
-                                        @case(5)
-                                            <span class="px-2.5 py-1 text-sm rounded-full bg-red-100 text-red-800">İptal
-                                                Edildi</span>
-                                        @break
+                                            @case(5)
+                                                <span class="px-2.5 py-1 text-sm rounded-full bg-red-100 text-red-800">İptal
+                                                    Edildi</span>
+                                            @break
 
-                                        @default
-                                            <span class="px-2.5 py-1 text-sm rounded-full bg-gray-400 text-white">Kargo Durumu
-                                                Yok</span>
-                                    @endswitch
-                                </div>
-                                <div class="text-gray-900 font-medium">{{ $t->trackingCode }}</div>
-                                <div>
-                                    <form action="{{ route('tracking.post') }}" method="POST" id="{{ $t->trackingCode }}">
-                                        @csrf
-                                        <input type="hidden" name="trackingCode" value="{{ $t->trackingCode }}">
-                                        <button type="submit"
-                                            class="px-4 py-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50/50 hover:bg-indigo-50 rounded-lg transition-colors">
-                                            İncele
-                                        </button>
-                                    </form>
+                                            @default
+                                                <span class="px-2.5 py-1 text-sm rounded-full bg-gray-400 text-white">Kargo Durumu
+                                                    Yok</span>
+                                        @endswitch
+                                    </div>
+                                    <div class="text-gray-900 font-medium">{{ $t->trackingCode }}</div>
+                                    <div>
+                                        <form action="{{ route('tracking.post') }}" method="POST"
+                                            id="{{ $t->trackingCode }}">
+                                            @csrf
+                                            <input type="hidden" name="trackingCode" value="{{ $t->trackingCode }}">
+                                            <button type="submit"
+                                                class="px-4 py-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50/50 hover:bg-indigo-50 rounded-lg transition-colors">
+                                                İncele
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                        @endforeach
+                    @else
+                        <div class="container mx-auto flex items-center justify-center">
+                            <img src="https://img.freepik.com/premium-vector/cloud-storage-concept-vector-isometric-style-stock-illustration-eps-file_848977-890.jpg"
+                                width="450px">
                         </div>
-                    @endforeach
+
+                    @endif
 
                     <div class="flex items-center justify-between px-6 py-4 bg-white border-t border-gray-200">
                         <div class="flex flex-col">
@@ -361,7 +370,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
                                 </path>
                             </svg>
-                            Yeni Kargo / Adres Ekle
+                            Yeni Kargo / Adres Ekle ({{ $newTracking_Code }})
                         </h3>
                         <button type="button"
                             class="text-gray-400 hover:text-gray-900 dark:hover:text-white text-2xl font-bold"
@@ -370,10 +379,10 @@
 
                     <div class="p-6 space-y-6">
                         <div>
-                            <label for="cargo_status"
+                            <label for="status"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kargo Durumu
                                 Seçiniz</label>
-                            <select name="cargo_status" id="cargo_status"
+                            <select name="status" id="status"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                                 required>
                                 <option selected disabled>Kargo Durumu Seçin</option>
@@ -399,15 +408,17 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label for="users_name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alıcı Adı</label>
-                                <input type="text" name="users_name" id="users_name" placeholder="Alıcı adı" required
+                                <label for="modal_user_name"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alıcı Adı /
+                                    Soyadı</label>
+                                <input type="text" name="modal_user_name" id="modal_user_name" placeholder="Alıcı Adı / Soyadı"
+                                    required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             </div>
                             <div>
-                                <label for="users_information_phone"
+                                <label for="phone"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefon</label>
-                                <input type="tel" name="users_information_phone" id="users_information__phone"
+                                <input type="tel" name="phone" id="users_information__phone"
                                     placeholder="05xx xxx xx xx" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             </div>
@@ -426,28 +437,34 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="users_information_state"
+                                <label for="state"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">İlçe</label>
-                                <input type="text" name="users_information_state" id="users_information_state"
-                                    placeholder="İlçe" required
+                                <input type="text" name="state" id="users_information_state" placeholder="İlçe"
+                                    required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             </div>
                             <div>
-                                <label for="users_information_district"
+                                <label for="district"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Semt</label>
-                                <input type="text" name="users_information_district" id="users_information_district"
-                                    placeholder="Semt" required
+                                <input type="text" name="district" id="users_information_district" placeholder="Semt"
+                                    required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             </div>
                         </div>
                         <div>
-                            <label for="users_information_address"
+                            <label for="address"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Adres</label>
-                            <textarea name="users_information_address" id="users_information_address" rows="2" placeholder="Açık adres"
-                                required
+                            <textarea name="address" id="users_information_address" rows="2" placeholder="Açık adres" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"></textarea>
                         </div>
                     </div>
+
+                    {{-- Visible İnput --}}
+                    <input type="text" name="tracking_code" id="trackingCode" value="{{ $newTracking_Code }}"
+                        hidden>
+                    <input type="text" name="city" id="users_information_city_name" hidden>
+                    <input type="text" name="zip_code" id="users_information_zip_code" hidden>
+                    <input type="text" name="country" id="country" value="Türkiye" hidden>
 
                     <div
                         class="flex justify-end p-6 border-t border-gray-200 dark:border-gray-700 bg-indigo-50 dark:bg-gray-900 rounded-b-lg">
@@ -518,16 +535,22 @@
             fetch(`/get-city-info/${cityId}`)
                 .then(response => response.json())
                 .then(data => {
+                    document.getElementById('users_information_city_name').value = data.city;
                     document.getElementById('users_information_state').value = data.state;
                     document.getElementById('users_information_district').value = data.district;
+                    document.getElementById('users_information_zip_code').value = data.zip_code;
                 })
                 .catch(error => {
                     console.error('Şehir bilgisi alınamadı:', error);
                 });
         });
 
-        document.getElementById("modalSubmitButton").addEventListener("click", function(){
-            
-        });
+        @if (session('success'))
+            Swal.fire({
+                title: "{{ session('success') }}",
+                icon: "success",
+                confirmButtonText: "Tamam"
+            })
+        @endif
     </script>
 @endsection

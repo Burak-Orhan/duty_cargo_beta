@@ -113,7 +113,7 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">İsim</label>
+                            <label class="block text-sm font-medium text-gray-700">Ad Soyad</label>
                             <input type="text" name="name" value="{{ old('name', Auth::user()->name) }}"
                                 class="mt-1 block w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                         </div>
@@ -141,27 +141,54 @@
                         <span class="text-xs text-gray-400">Düzenlenebilir</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Ülke</label>
-                            <input type="text" name="country"
-                                value="{{ old('country', optional(Auth::user()->userInformation)->country) }}"
-                                class="mt-1 block w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                        </div>
-                        <div>
+                        {{-- <div>
                             <label class="block text-sm font-medium text-gray-700">Şehir/İl</label>
                             <input type="text" name="city"
                                 value="{{ old('city', optional(Auth::user()->userInformation)->city) }}"
                                 class="mt-1 block w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                        </div> --}}
+
+                        <div>
+                            <label for="city"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">İl</label>
+                            <select name="city" id="city"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                required>
+
+                                @if ($q && $q->cities_id)
+                                    @php
+                                        $selectedCity = $cities->firstWhere('id', $q->cities_id);
+                                    @endphp
+                                    <option selected value="{{ $q->cities_id }}">
+                                        {{ $selectedCity->city ?? 'Seçili Şehir' }}</option>
+                                @else
+                                    <option selected disabled>Şehir seçin</option>
+                                @endif
+
+                                @foreach ($cities as $ci)
+                                    @if ($ci->id != $q->cities_id)
+                                        <option value="{{ $ci->id }}">{{ $ci->city }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
+
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700">İlçe</label>
-                            <input type="text" name="state"
+                            <input type="text" name="state" id="state"
                                 value="{{ old('state', optional(Auth::user()->userInformation)->state) }}"
                                 class="mt-1 block w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                         </div>
                         <div>
+                            <label class="block text-sm font-medium text-gray-700">Semt</label>
+                            <input type="text" name="district" id="district"
+                                value="{{ old('district', optional(Auth::user()->userInformation)->district) }}"
+                                class="mt-1 block w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                        </div>
+                        <div>
                             <label class="block text-sm font-medium text-gray-700">Posta Kodu</label>
-                            <input type="text" name="zip_code"
+                            <input type="text" name="zip_code" id="zip_code"
                                 value="{{ old('zip_code', optional(Auth::user()->userInformation)->zip_code) }}"
                                 class="mt-1 block w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                         </div>
@@ -194,6 +221,21 @@
                 confirmButtonText: "Tamam"
             })
         @endif
+
+        document.getElementById('city').addEventListener('change', function() {
+            let cityId = this.value;
+
+            fetch(`/get-city-info/${cityId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('state').value = data.state;
+                    document.getElementById('district').value = data.district;
+                    document.getElementById('zip_code').value = data.zip_code;
+                })
+                .catch(error => {
+                    console.error('Şehir bilgisi alınamadı:', error);
+                });
+        });
 
         // Swal.fire({
         //     title: "Değişiklikleri Kaydetmek İstiyormusunuz?",

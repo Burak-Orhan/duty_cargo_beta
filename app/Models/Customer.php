@@ -9,12 +9,13 @@ class Customer extends Model
 {
     use HasFactory;
 
-    protected $table = 'customer';
+    protected $table = 'customers';
 
     protected $fillable = [
         'user_id',
         'purchase_date',
-        "cargos_id",
+        "cargo_id",
+        // "cargos_id",
         "user_information_id"
     ];
 }

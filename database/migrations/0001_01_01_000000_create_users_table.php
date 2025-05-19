@@ -71,6 +71,7 @@ return new class extends Migration {
         Schema::create('user_information', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string("modal_user_name")->nullable();
             $table->string('phone')->nullable();
             $table->string('country')->nullable();
             $table->string('city')->nullable();

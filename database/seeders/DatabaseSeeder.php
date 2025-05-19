@@ -24,13 +24,19 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->_testUser();
-        $user = User::factory()->create();
+        // $user = User::factory()->create();
         $this->Cities();
-        $company = $this->createCompany();
+        $this->createCompany();
+        // $company = $this->createCompany();
         // $customer = $this->createCustomer($user); //Eğer bağlantı kurmadan kullanılacaksa burayı kullanmalıyız
-        $this->createUserInformation($user);
+        $this->createUserInformation($this->usersName());
         // $this->createCargos($company, $customer, $user); //Eğer bağlantı kurmadan kullanılacaksa burayı kullanmalıyız
-        $this->createCargosCustomers($company, $user); //Eğer bağlantı kurmadan kullanılacaksa burayo kapatmalıyız
+        // $this->createCargosCustomers($company, $user); //Eğer bağlantı kurmadan kullanılacaksa burayo kapatmalıyız
+    }
+
+    public function usersName()
+    {
+        return User::firstWhere("id", "=", 1);
     }
 
     public function Cities()
@@ -137,13 +143,19 @@ class DatabaseSeeder extends Seeder
 
     public function createCompany()
     {
-        return Company::create([
-            'name' => fake()->company(),
-            'country' => fake()->country(),
-            'city' => fake()->city(),
-            'state' => fake()->state(),
-            'post_date' => fake()->datetime()->format('Y-m-d H:i'),
-        ]);
+        
+        $companies = [];
+        for ($i = 1; $i <= 20; $i++) {
+            $randomCity = DB::table('cities')->inRandomOrder()->first();
+            $companies[] = Company::create([
+                'name' => fake()->company(),
+                'country' => "Türkiye",
+                'city' => $randomCity->city,
+                'state' => $randomCity->state,
+                'post_date' => fake()->datetime()->format('Y-m-d H:i'),
+            ]);
+        }
+        return $companies;
     }
 
     public function createCustomer($user)
@@ -160,6 +172,7 @@ class DatabaseSeeder extends Seeder
 
         UserInformation::create([
             'user_id' => $user->id,
+            "modal_user_name" => $user->name,
             'phone' => fake()->numerify('5## ### ## ##'),
             'country' => 'Türkiye',
             'city' => $randomCity->city,

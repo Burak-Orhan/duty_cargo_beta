@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Cargos;
 use App\Models\Cities;
+use App\Models\Customer;
+use App\Models\UserInformation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +38,8 @@ class DashboardController extends Controller
                 $join->on('cu.user_id', '=', 'u.id')
                     ->on('cu.cargo_id', '=', 'c.id');
             })
-            ->join('user_information as ui', 'ui.id', '=', 'cu.user_information_id');
+            ->join('user_information as ui', 'ui.id', '=', 'cu.user_information_id')
+            ->where("c.user_id", $user->id);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -60,18 +63,17 @@ class DashboardController extends Controller
             $number = (int) $matches[1] + 1;
             $newTracking_Code = 'KRG' . str_pad($number, 4, '0', STR_PAD_LEFT);
         } else {
-            $newTracking_Code = 'KRG0000';
+            $newTracking_Code = 'KRG0001';
         }
 
         $trackings = $query->orderByDesc('c.id')->paginate($perPage);
         $trackingsCount = $trackings->total();
-        // $trackingsCount = $trackings->count();
 
-        $receivedFromWarehouse = Cargos::where("status", 1)->count();
-        $cargoesSetOff = Cargos::where("status", 2)->count();
-        $cargoesInDistribution = Cargos::where("status", 3)->count();
-        $cargoesDelivered = Cargos::where("status", 4)->count();
-        $cargoesCanceled = Cargos::where("status", 5)->count();
+        $receivedFromWarehouse = Cargos::where("status", 1)->where("user_id", $user->id)->count();
+        $cargoesSetOff = Cargos::where("status", 2)->where("user_id", $user->id)->count();
+        $cargoesInDistribution = Cargos::where("status", 3)->where("user_id", $user->id)->count();
+        $cargoesDelivered = Cargos::where("status", 4)->where("user_id", $user->id)->count();
+        $cargoesCanceled = Cargos::where("status", 5)->where("user_id", $user->id)->count();
 
         $firstTracking = $trackings->first();
         $lastTrackingTime = $firstTracking ? Carbon::parse($firstTracking->customer_purchase_date)->diffForHumans() : null;
@@ -100,70 +102,82 @@ class DashboardController extends Controller
         $city = Cities::findOrFail($id);
 
         return response()->json([
+            'city' => $city->city,
             'state' => $city->state,
             'district' => $city->district,
+            'zip_code' => $city->zip_code,
         ]);
     }
 
     public function dashboardPost(Request $request)
     {
-        dd($request->all());
+        $user = Auth::user();
+
+        $validate = $request->validate([
+            "tracking_code" => "required",
+            "status" => "required",
+            "company_id" => "required",
+            "modal_user_name" => "required|string|max:255",
+            "phone" => "nullable|string|max:255",
+            "users_information_city" => "nullable|string|max:255",
+            "city" => "nullable|string|max:255",
+            "state" => "nullable|string|max:255",
+            "district" => "nullable|string|max:255",
+            "zip_code" => "nullable|string|max:255",
+            "address" => "nullable|string|max:500",
+            "country" => "nullable|string|max:20",
+        ]);
+
+        $cargosData = collect($validate)->only([
+            "tracking_code",
+            "company_id",
+            "status"
+        ])->toArray();
+        $cargosData['user_id'] = $user->id;
+
+        $userInformatonData = collect($validate)->only([
+            "modal_user_name",
+            "country",
+            "phone",
+            "city",
+            "state",
+            "district",
+            "zip_code",
+            "address"
+        ])->toArray();
+        $userInformatonData['user_id'] = $user->id;
+
+        $cargo = Cargos::create($cargosData);
+        $userInformation = UserInformation::create($userInformatonData);
+
+        Customer::create([
+            'user_id' => $user->id,
+            'cargo_id' => $cargo->id,
+            'purchase_date' => now(),
+            'user_information_id' => $userInformation->id
+        ]);
+
+        return redirect()->back()->with('success', 'Kargo başarıyla eklendi.');
     }
-
-    // public function dashboard()
-    // {
-    //     Carbon::setLocale("tr");
-    //     $user = Auth::user();
-
-    //     $trackings = DB::table('cargos as c')
-    //         ->select([
-    //             'u.name as users_name',
-    //             'c.tracking_code as trackingCode',
-    //             'c.id as cargo_id',
-    //             'c.status as cargo_status',
-    //             'co.country as company_country',
-    //             'co.name as company_name',
-    //             'ui.country as users_information_country',
-    //             'ui.city as users_information_city',
-    //             'cu.purchase_date as customer_purchase_date',
-    //         ])
-    //         ->join('users as u', 'u.id', '=', 'c.user_id')
-    //         ->join('companies as co', 'co.id', '=', 'c.company_id')
-    //         ->join('customers as cu', function ($join) {
-    //             $join->on('cu.user_id', '=', 'u.id')
-    //                 ->on('cu.cargo_id', '=', 'c.id');
-    //         })
-    //         ->Join('user_information as ui', 'ui.id', '=', 'cu.user_information_id')
-    //         ->orderByDesc('c.id')
-    //         ->get();
-
-    //     $trackingsCount = $trackings->count();
-    //     $receivedFromWarehouse = Cargos::whereRaw("status = 1")->count();
-    //     $cargoesSetOff = Cargos::whereRaw("status = 2")->count();
-    //     $cargoesInDistribution = Cargos::whereRaw("status = 3")->count();
-    //     $cargoesDelivered = Cargos::whereRaw("status = 4")->count();
-
-    //     $firstTracking = $trackings->first();
-    //     $lastTrackingTime = $firstTracking ? Carbon::parse($firstTracking->customer_purchase_date)->diffForHumans() : null;
-    //     $lastTrackingLongTime = $firstTracking ? Carbon::parse($firstTracking->customer_purchase_date)->format('d.m.Y H:i') : null;
-
-    //     // return view("dashboard.dashboard", compact("trackings", "user", "trackingsCount", "lastTracking", "lastTrackingLong"));
-    //     return view("dashboard.dashboard")->with([
-    //         "user" => $user,
-    //         "trackings" => $trackings,
-    //         "trackingsCount" => $trackingsCount,
-    //         "lastTrackingTime" => $lastTrackingTime,
-    //         "lastTrackingLongTime" => $lastTrackingLongTime,
-    //         "receivedFromWarehouse" => $receivedFromWarehouse,
-    //         "cargoesSetOff" => $cargoesSetOff,
-    //         "cargoesInDistribution" => $cargoesInDistribution,
-    //         "cargoesDelivered" => $cargoesDelivered,
-    //     ]);
-    // }
 
     public function settings()
     {
-        return view("dashboard.settings");
+        $user = Auth::user();
+        $cities = Cities::get();
+
+        $q = DB::table("user_information as ui")
+            ->select([
+                "ui.city",
+                "ci.id as cities_id"
+            ])
+            ->join("cities as ci", "ci.city", "ui.city")
+            ->where("ui.id", $user->id)
+            ->first();
+
+        return view("dashboard.settings")->with([
+            "cities" => $cities,
+            "q" => $q,
+        ]);
     }
 
     public function settingsPost(Request $request)
@@ -175,7 +189,8 @@ class DashboardController extends Controller
             'email' => 'required|email|unique:users,email,' . $user->id,
             'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
+            'district' => 'nullable|string|max:255',
+            'city' => 'nullable|integer|exists:cities,id',
             'state' => 'nullable|string|max:255',
             'zip_code' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
@@ -186,18 +201,25 @@ class DashboardController extends Controller
             "name"
         ])->toArray();
 
+        $cityName = null;
+        if (!empty($validatedData['city'])) {
+            $city = Cities::find($validatedData['city']);
+            $cityName = $city?->city;
+        }
+
         $userInformationData = collect($validatedData)->only([
             "phone",
-            "city",
+            "district",
             "state",
             "zip_code",
             "address"
         ])->toArray();
-
+        $userInformationData['city'] = $cityName;
 
         $user->update($userData);
         $userInformation->update($userInformationData);
 
         return redirect()->route("settings")->with('success', 'Hesap Ayarları Güncellendi.');
     }
+
 }

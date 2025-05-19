@@ -43,7 +43,11 @@ class AuthController extends Controller
             "email" => ["required", "email", "max:255", "unique:users"],
             "password" => ["required", "string", "min:8", "confirmed"],
             "phone" => ["required"],
-            "address" => ["required"]
+            "city" => ["required"],
+            "state" => ["required"],
+            "district" => ["required"],
+            "zip_code" => ["required"],
+            "address" => ["required"],
         ]);
 
         $user = User::create([
@@ -53,9 +57,15 @@ class AuthController extends Controller
         ]);
 
         $userInformation = UserInformation::create([
+            "modal_user_name" => $user->name,
+            "country" => 'Türkiye',
             "user_id" => $user->id,
             "phone" => $request->phone,
-            "address" => $request->address
+            "city" => $request->city,
+            "state" => $request->state,
+            "district" => $request->district,
+            "zip_code" => $request->zip_code,
+            "address" => $request->address,
         ]);
 
         if ($user->save() || $userInformation->save()) {
@@ -92,8 +102,6 @@ class AuthController extends Controller
 
         return redirect()->back()->with("error", "Şifre Güncellenirken Bir Hata Oluştu");
     }
-
-
 
     public function logout()
     {

@@ -16,7 +16,8 @@ class UserInformation extends Model
         'zip_code',
         'address',
         'district',
-        "country"
+        "country",
+        "modal_user_name"
     ];
     public function user()
     {
