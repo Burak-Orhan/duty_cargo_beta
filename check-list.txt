@@ -1,2 +1,0 @@
-gönderici seçmesine rağmen kendi kullanıcı adına gidiyor
-şifre yenildekten sonra epostayı otomatik gönder

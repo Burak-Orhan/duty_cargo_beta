@@ -131,7 +131,7 @@
                             </div>
                             <div>
                                 <h3 class="text-sm font-medium text-gray-500">Alıcı</h3>
-                                <p class="text-base font-semibold text-gray-900 mt-1">{{ $trackingCode->users_name }}</p>
+                                <p class="text-base font-semibold text-gray-900 mt-1">{{ $trackingCode->users_modal_user_name }}</p>
                                 <p class="text-sm text-gray-600 mt-1">{{ $trackingCode->users_information_city }},
                                     {{ $trackingCode->users_information_country }}</p>
                                 <div class="mt-2 flex items-center text-xs text-gray-500">
@@ -170,7 +170,7 @@
                                         <div class="bg-gray-50 rounded-lg p-4">
                                             <h3 class="text-lg font-medium text-gray-900">Depoda Teslim Alındı</h3>
                                             <div class="mt-2 text-sm text-gray-600">
-                                                <p class="font-medium">Depo Merkezi, {{ $trackingCode->company_country }}</p>
+                                                <p class="font-medium">Depo Merkezi, {{ $trackingCode->company_city }}</p>
                                                 <div class="mt-1 flex items-center text-gray-500">
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
@@ -203,7 +203,7 @@
                                         <div class="bg-gray-50 rounded-lg p-4">
                                             <h3 class="text-lg font-medium text-gray-900">Yola Çıktı</h3>
                                             <div class="mt-2 text-sm text-gray-600">
-                                                <p class="font-medium">{{ $trackingCode->company_country }} Dağıtım Merkezi
+                                                <p class="font-medium">{{ $trackingCode->company_city }} Dağıtım Merkezi
                                                 </p>
                                                 <div class="mt-1 flex items-center text-gray-500">
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
@@ -269,7 +269,7 @@
                                         <div class="bg-gray-50 rounded-lg p-4">
                                             <h3 class="text-lg font-medium text-gray-900">Teslim Edildi</h3>
                                             <div class="mt-2 text-sm text-gray-600">
-                                                <p class="font-medium">{{ $trackingCode->users_name }},
+                                                <p class="font-medium">{{ $trackingCode->users_modal_user_name }},
                                                     {{ $trackingCode->users_information_city }}</p>
                                                 <div class="mt-1 flex items-center text-gray-500">
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"

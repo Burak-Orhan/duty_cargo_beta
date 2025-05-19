@@ -51,6 +51,7 @@ class TrackingController extends Controller
                 'co.post_date as company_post_date',
                 'ui.city as users_information_city',
                 'ui.country as users_information_country',
+                'ui.modal_user_name as users_modal_user_name',
                 'cu.purchase_date as customer_purchase_date',
             ])
             ->join('users as u', 'u.id', '=', 'c.user_id')
