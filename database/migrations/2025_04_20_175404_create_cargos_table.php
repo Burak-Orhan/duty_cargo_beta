@@ -24,8 +24,8 @@ return new class extends Migration {
             $table->string('city');
             $table->string('state');
             $table->string('district');
-            $table->string('address');
             $table->string('zip_code');
+            $table->string('address');
             $table->timestamps();
         });
     }

@@ -60,8 +60,12 @@ class TrackingController extends Controller
                 $join->on('cu.cargo_id', '=', 'c.id')
                     ->on('cu.user_id', '=', 'c.user_id');
             })
-            ->join('user_information as ui', 'ui.user_id', '=', 'c.user_id')
+            ->join('user_information as ui', function($join){
+                $join->on( 'ui.user_id', '=', 'c.user_id')
+                    ->on("ui.id", "=", "cu.user_information_id");
+            })
             ->where('c.tracking_code', $request->trackingCode)
+            // ->orderBy("ui.modal_user_name","desc")
             ->first();
 
         if (!$trackingCode) {
