@@ -94,6 +94,7 @@ In order to ensure that the Laravel community is welcoming to all, please review
 ## Dosya Yapısı
 [Git Tree Document](https://gitdocs1.s3.amazonaws.com/digests/burak-orhan-duty_cargo/61696bce-85cb-4711-ab1e-fc01f8d2399b.txt)
 
+```bash
 Directory structure:
 └── burak-orhan-duty_cargo/
     ├── README.md
@@ -225,3 +226,4 @@ Directory structure:
         │   └── ExampleTest.php
         └── Unit/
             └── ExampleTest.php
+```
