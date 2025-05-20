@@ -43,7 +43,7 @@ php artisan view:clear
 php artisan config:clear
 ```
 
-## 5. Uygulama Performansı İçin Optimize
+### 5. Uygulama Performansı İçin Optimize
 ```bash 
 php artisan optimize 
 ```
@@ -57,8 +57,12 @@ php artisan db:seed
 ```bash 
 php artisan serve 
 ``` 
+
+### 
 ```bash 
-  (Seeder Fake Mail / Password) test@test.com / test
+  Seeder Fake Bilgileri;
+    Mail : test@test.com
+    Pasword : test
 ``` 
 
 
