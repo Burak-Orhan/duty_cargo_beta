@@ -71,10 +71,10 @@ Seeder Fake Bilgileri;
 3. Parti bir site olup, yetkili kişi; 
 Hesap oluşturabilir, kargo gönderimi yapabilir, gönderilen kargoları ve kargo bilgilerini görüntüleyebilir, hesap ayarlarını güncelleyebilir. 
 
-Projede kullanılan teknolojiler ve yüzdelik dilimleri;
-                   (Laravel) Blade : %54.86
-                               PHP : %30.58
-                    (CSS) Tailwind : %4,58
+Projede kullanılan teknolojiler ve yüzdelik dilimleri;<br>
+                   (Laravel) Blade : %54.86<br>
+                               PHP : %30.58<br>
+                    (CSS) Tailwind : %4,58<br>
   (JS) Flowbite, Ajax, SweetAlert2 : %2,23 
 
 ## Code of Conduct
