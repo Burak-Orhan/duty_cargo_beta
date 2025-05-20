@@ -91,6 +91,137 @@ Hesap oluşturabilir, kargo gönderimi yapabilir, gönderilen kargoları ve karg
 In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
 
-## License
+## Dosya Yapısı
+[Git Tree Document](https://gitdocs1.s3.amazonaws.com/digests/burak-orhan-duty_cargo/61696bce-85cb-4711-ab1e-fc01f8d2399b.txt)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Directory structure:
+└── burak-orhan-duty_cargo/
+    ├── README.md
+    ├── artisan
+    ├── composer.json
+    ├── composer.lock
+    ├── LICENSE
+    ├── package.json
+    ├── phpunit.xml
+    ├── vite.config.js
+    ├── .editorconfig
+    ├── .env.example
+    ├── app/
+    │   ├── Http/
+    │   │   └── Controllers/
+    │   │       ├── AuthController.php
+    │   │       ├── Controller.php
+    │   │       ├── DashboardController.php
+    │   │       └── TrackingController.php
+    │   ├── Models/
+    │   │   ├── Cargos.php
+    │   │   ├── Cities.php
+    │   │   ├── Company.php
+    │   │   ├── Customer.php
+    │   │   ├── User.php
+    │   │   └── UserInformation.php
+    │   └── Providers/
+    │       └── AppServiceProvider.php
+    ├── bootstrap/
+    │   ├── app.php
+    │   ├── providers.php
+    │   └── cache/
+    │       └── .gitignore
+    ├── config/
+    │   ├── app.php
+    │   ├── auth.php
+    │   ├── cache.php
+    │   ├── database.php
+    │   ├── filesystems.php
+    │   ├── logging.php
+    │   ├── mail.php
+    │   ├── queue.php
+    │   ├── services.php
+    │   └── session.php
+    ├── database/
+    │   ├── .gitignore
+    │   ├── factories/
+    │   │   ├── CargosFactory.php
+    │   │   ├── CitiesFactory.php
+    │   │   ├── CompanyFactory.php
+    │   │   ├── CustomerFactory.php
+    │   │   ├── UserFactory.php
+    │   │   └── UserInformationFactory.php
+    │   ├── migrations/
+    │   │   ├── 0001_01_01_000000_create_users_table.php
+    │   │   ├── 0001_01_01_000001_create_cache_table.php
+    │   │   ├── 0001_01_01_000002_create_jobs_table.php
+    │   │   └── 2025_04_20_175404_create_cargos_table.php
+    │   └── seeders/
+    │       ├── DatabaseSeeder.php
+    │       └── fakeSeeder.php
+    ├── public/
+    │   ├── index.php
+    │   ├── robots.txt
+    │   ├── .htaccess
+    │   └── assets/
+    │       ├── css/
+    │       │   ├── dashboard.css
+    │       │   ├── tracking.css
+    │       │   └── trackingResult.css
+    │       ├── img/
+    │       │   ├── cmp.webp
+    │       │   └── DutyCARGO.webp
+    │       └── js/
+    │           ├── dashboardStyle.js
+    │           ├── toastFire.js
+    │           └── trackingResult.js
+    ├── resources/
+    │   ├── css/
+    │   │   └── app.css
+    │   ├── js/
+    │   │   ├── app.js
+    │   │   └── bootstrap.js
+    │   └── views/
+    │       ├── defaultDashboardView.blade.php
+    │       ├── defaultView.blade.php
+    │       ├── welcome.blade.php
+    │       ├── auth/
+    │       │   ├── forgetPassword.blade.php
+    │       │   ├── login.blade.php
+    │       │   └── register.blade.php
+    │       ├── dashboard/
+    │       │   ├── dashboard.blade.php
+    │       │   └── settings.blade.php
+    │       └── tracking/
+    │           ├── tracking.blade.php
+    │           └── trackingResult.blade.php
+    ├── routes/
+    │   ├── auth.php
+    │   ├── console.php
+    │   ├── dashboard.php
+    │   ├── tracking.php
+    │   └── web.php
+    ├── storage/
+    │   ├── app/
+    │   │   ├── .gitignore
+    │   │   ├── private/
+    │   │   │   └── .gitignore
+    │   │   └── public/
+    │   │       └── .gitignore
+    │   ├── framework/
+    │   │   ├── .gitignore
+    │   │   ├── cache/
+    │   │   │   ├── .gitignore
+    │   │   │   └── data/
+    │   │   │       └── .gitignore
+    │   │   ├── sessions/
+    │   │   │   └── .gitignore
+    │   │   ├── testing/
+    │   │   │   └── .gitignore
+    │   │   └── views/
+    │   │       └── .gitignore
+    │   └── logs/
+    │       └── .gitignore
+    └── tests/
+        ├── Pest.php
+        ├── TestCase.php
+        ├── Feature/
+        │   └── ExampleTest.php
+        └── Unit/
+            └── ExampleTest.php
