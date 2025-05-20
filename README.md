@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">
-  <!-- <img src="/public/assets/img/DutyCARGO.webp" width="300" alt="DutyCARGO Logo"> -->
+  <img src="/public/assets/img/DutyCARGO.webp" width="300" alt="DutyCARGO Logo">
 </p>
 
 <p align="center">Made With Laravel & Hand Craft</p>
@@ -24,24 +24,36 @@ npm install
 ```bash 
 composer install
 ```
+
+### 2. Ortam Dosyasının Oluşturulması
 ```bash 
 cp .env.example .env
 ```
+
+### 3. Uygulama Anahtarının Oluşturulması
 ```bash 
 php artisan key:generate
 ```
+
+### 4. Önbellek ve Görünüm Temizliği
 ```bash 
 php artisan view:clear
 ```
 ```bash 
 php artisan config:clear
 ```
+
+## 5. Uygulama Performansı İçin Optimize
 ```bash 
 php artisan optimize 
 ```
+
+### 6. Veritabanı İçeriğinin Eklenmesi
 ```bash 
 php artisan db:seed
 ```
+
+### 7. Geliştirme Sunucusunun Başlatılması
 ```bash 
 php artisan serve 
 ``` 
