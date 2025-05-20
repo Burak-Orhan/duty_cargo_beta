@@ -77,6 +77,15 @@ Projede kullanılan teknolojiler ve yüzdelik dilimleri;<br>
                     (CSS) Tailwind : %4,58<br>
   (JS) Flowbite, Ajax, SweetAlert2 : %2,23 
 
+
+| Teknoloji                        |  Oran   |
+|----------------------------------|---------|
+| (Laravel) Blade                  | %54.86  |
+| PHP                              | %30.58  |
+| (CSS) Tailwind                   | %4.58   |
+| (JS) Flowbite, Ajax, SweetAlert2 | %2.23   |
+
+
 ## Code of Conduct
 
 In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
