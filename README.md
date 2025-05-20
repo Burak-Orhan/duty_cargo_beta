@@ -53,7 +53,7 @@ php artisan db:seed
 php artisan serve 
 ``` 
 ```bash 
-  test@test.com / test
+(Seeder Fake Mail / Password) test@test.com / test
 ``` 
 
 
