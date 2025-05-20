@@ -13,47 +13,40 @@
 
 <img src="/public/assets/img/DutyCARGOBanner.png">
 
-## About Laravel
+## Laravel Projesi Kurulum ve Hazırlık Adımları
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Bir Laravel projesini başarıyla çalıştırmak ve geliştirmeye başlamak için belirli kurulum adımlarını izlemek gerekmektedir. Aşağıda, projeyi ayağa kaldırmak için kullanılan terminal komutları açıklanmıştır;
 
+### 1. Gerekli Paketlerin Yüklenmesi
 ```bash 
 npm install 
 ```
-
 ```bash 
 composer install
 ```
-
 ```bash 
 cp .env.example .env
 ```
-
 ```bash 
 php artisan key:generate
 ```
-
 ```bash 
 php artisan view:clear
 ```
-
 ```bash 
 php artisan config:clear
 ```
-
 ```bash 
 php artisan optimize 
 ```
-
 ```bash 
 php artisan db:seed
 ```
-
 ```bash 
 php artisan serve 
 ``` 
 ```bash 
-(Seeder Fake Mail / Password) test@test.com / test
+  (Seeder Fake Mail / Password) test@test.com / test
 ``` 
 
 
