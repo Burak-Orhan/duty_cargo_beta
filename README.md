@@ -60,15 +60,22 @@ php artisan serve
 
 ### 
 ```bash 
-  Seeder Fake Bilgileri;
-    Mail : test@test.com
-    Pasword : test
+Seeder Fake Bilgileri;
+  Mail : test@test.com
+  Pasword : test
 ``` 
 
 
-## Contributing
+## Projenin İçeriği
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. Parti bir site olup, yetkili kişi; 
+Hesap oluşturabilir, kargo gönderimi yapabilir, gönderilen kargoları ve kargo bilgilerini görüntüleyebilir, hesap ayarlarını güncelleyebilir. 
+
+Projede kullanılan teknolojiler ve yüzdelik dilimleri;
+                   (Laravel) Blade : %54.86
+                               PHP : %30.58
+                    (CSS) Tailwind : %4,58
+  (JS) Flowbite, Ajax, SweetAlert2 : %2,23 
 
 ## Code of Conduct
 
