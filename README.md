@@ -79,6 +79,12 @@ Hesap oluşturabilir, kargo gönderimi yapabilir, gönderilen kargoları ve karg
 | (CSS) Tailwind                   | %4.58   |
 | (JS) Flowbite, Ajax, SweetAlert2 | %2.23   |
 
+| Kullanılan Teknolojiler          |         |
+|----------------------------------|---------|
+| Sunucu                           | Nginx   |
+| Veri Tabanı                      | DBNgin  |
+| Veri Tabanı Türü                 | MySql   |
+
 
 ## Code of Conduct
 
