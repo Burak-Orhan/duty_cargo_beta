@@ -29,6 +29,34 @@ composer install
 cp .env.example .env
 ```
 
+```bash 
+php artisan key:generate
+```
+
+```bash 
+php artisan view:clear
+```
+
+```bash 
+php artisan config:clear
+```
+
+```bash 
+php artisan optimize 
+```
+
+```bash 
+php artisan db:seed
+```
+
+```bash 
+php artisan serve 
+``` 
+```bash 
+  test@test.com / test
+``` 
+
+
 ## Contributing
 
 Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
