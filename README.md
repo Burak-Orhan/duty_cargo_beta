@@ -88,7 +88,9 @@ Hesap oluşturabilir, kargo gönderimi yapabilir, gönderilen kargoları ve karg
 | SSL Sertifikası                  | Caddy   |
 
 
-## Code of Conduct
+## ER Diagram Görüntüsü
+
+<img src="/public/assets/img/DutyCargo-ER-Diagram.png" width="300" alt="DutyCARGO Logo">
 
 In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
