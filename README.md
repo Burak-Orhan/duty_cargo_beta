@@ -81,9 +81,11 @@ Hesap oluşturabilir, kargo gönderimi yapabilir, gönderilen kargoları ve karg
 
 | Kullanılan Teknolojiler          |         |
 |----------------------------------|---------|
-| Sunucu                           | Nginx   |
+| Services Yükleyicisi             | Herd    |
+| PHP Sunucusu                     | Nginx   |
 | Veri Tabanı                      | DBNgin  |
 | Veri Tabanı Türü                 | MySql   |
+| SSL Sertifikası                  | Caddy   |
 
 
 ## Code of Conduct
