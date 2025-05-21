@@ -72,7 +72,7 @@ Seeder Fake Bilgileri;
 Hesap oluşturabilir, kargo gönderimi yapabilir, gönderilen kargoları ve kargo bilgilerini görüntüleyebilir, hesap ayarlarını güncelleyebilir. 
 
 
-| Kullanılan Teknolojiler          |  Oran   |
+| Kullanılan Yazılım Dilleri       |  Oran   |
 |----------------------------------|---------|
 | (Laravel) Blade                  | %54.86  |
 | PHP                              | %30.58  |
