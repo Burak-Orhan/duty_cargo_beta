@@ -269,7 +269,7 @@
                                             <h3 class="text-lg font-medium text-gray-900">Teslim Edildi</h3>
                                             <div class="mt-2 text-sm text-gray-600">
                                                 <p class="font-medium">{{ $trackingCode->users_modal_user_name }},
-                                                    {{ $trackingCode->users_information_city }}</p>
+                                                    {{ $trackingCode->users_information_city . " / " . $trackingCode->users_information_state . " / " . $trackingCode->users_information_district .  " ( $trackingCode->users_information_address )"}}</p>
                                                 <div class="mt-1 flex items-center text-gray-500">
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
