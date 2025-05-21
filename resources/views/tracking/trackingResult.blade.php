@@ -42,7 +42,6 @@
                                     <span class="text-sm font-medium text-gray-500">Takip No:</span>
                                     <span class="ml-2 font-mono font-bold"
                                         style="color: #4F46E5">{{ $trackingCode->tracking_code }}</span>
-                                    {{-- Display current status dynamically --}}
                                     @php
                                         $statusText = '';
                                         $statusColor = '';
@@ -286,7 +285,7 @@
                                 </div>
                             @endif
 
-                            {{-- Handle Cancelled Status (Optional: Display as a separate, final step) --}}
+                            {{-- Step 5: Handle Cancelled Status (Cancelled) --}}
                             @if ($trackingCode->cargo_status === 5)
                                 <div class="relative flex items-center space-x-6 timeline-dot">
                                     <div class="flex-shrink-0 z-10">
