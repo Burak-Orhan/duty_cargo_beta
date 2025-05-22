@@ -68,7 +68,6 @@ class TrackingController extends Controller
                     ->on("ui.id", "=", "cu.user_information_id");
             })
             ->where('c.tracking_code', $request->trackingCode)
-            // ->orderBy("ui.modal_user_name","desc")
             ->first();
 
         if (!$trackingCode) {
