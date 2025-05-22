@@ -11,6 +11,7 @@ return new class extends Migration {
     {
         // Users Tablosu
         Schema::create('users', function (Blueprint $table) {
+            $table->boolean('is_admin')->default(false);
             $table->id();
             $table->string('name');
             $table->string('email')->unique();

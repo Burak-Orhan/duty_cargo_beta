@@ -241,7 +241,8 @@ class DatabaseSeeder extends Seeder
             User::create([
                 'name' => 'Test User',
                 'email' => 'test@test.com',
-                "password" => "test"
+                "password" => "test",
+                "is_admin" => true,
             ]);
 
             DB::table('_settings')->insert([

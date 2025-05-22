@@ -59,7 +59,7 @@
                         </div>
                         <div class="flex-1">
                             <div class="text-sm font-medium text-gray-900">{{ Auth::user()->name }}</div>
-                            <div class="text-xs text-gray-500">{{ Auth::user()->role ?? 'User' }}</div>
+                            <div class="text-xs text-gray-500">{{ Auth::user()->is_admin ? "Admin" : 'User' }}</div>
                         </div>
                         <form action="{{ route('logout') }}" method="GET">
                             @csrf

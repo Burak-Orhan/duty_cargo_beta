@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+
 class DashboardController extends Controller
 {
     public function dashboard(Request $request)
@@ -38,13 +39,16 @@ class DashboardController extends Controller
                 $join->on('cu.user_id', '=', 'u.id')
                     ->on('cu.cargo_id', '=', 'c.id');
             })
-            ->join('user_information as ui', 'ui.id', '=', 'cu.user_information_id')
-            ->where("c.user_id", $user->id);
+            ->join('user_information as ui', 'ui.id', '=', 'cu.user_information_id');
+
+        if (!$user->is_admin)
+            $query->where("c.user_id", $user->id);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('u.name', 'like', '%' . $search . '%')
                     ->orWhere('u.email', 'like', '%' . $search . '%')
+                    ->orWhere('c.status', 'like', '%' . $search . '%')
                     ->orWhere('c.tracking_code', 'like', '%' . $search . '%');
             });
         }
@@ -69,11 +73,68 @@ class DashboardController extends Controller
         $trackings = $query->orderByDesc('c.id')->paginate($perPage);
         $trackingsCount = $trackings->total();
 
-        $receivedFromWarehouse = Cargos::where("status", 1)->where("user_id", $user->id)->count();
-        $cargoesSetOff = Cargos::where("status", 2)->where("user_id", $user->id)->count();
-        $cargoesInDistribution = Cargos::where("status", 3)->where("user_id", $user->id)->count();
-        $cargoesDelivered = Cargos::where("status", 4)->where("user_id", $user->id)->count();
-        $cargoesCanceled = Cargos::where("status", 5)->where("user_id", $user->id)->count();
+        $statuses = [
+            'receivedFromWarehouse' => 1,
+            'cargoesSetOff' => 2,
+            'cargoesInDistribution' => 3,
+            'cargoesDelivered' => 4,
+            'cargoesCanceled' => 5,
+        ];
+
+        foreach ($statuses as $varName => $status) {
+            $$varName = Cargos::where("status", $status);
+            if (!$user->is_admin) {
+                $$varName->where("user_id", $user->id);
+            }
+            $$varName = $$varName->count();
+        }
+
+        $cargoStats = [
+            'total' => [
+                'title' => 'Toplam Kargo',
+                'count' => Cargos::when(!$user->is_admin, function ($query) use ($user) {
+                    return $query->where("user_id", $user->id);
+                })->count(),
+                'description' => 'Toplam kargo sayısı',
+                'color_class' => 'gray',
+                'icon' => '📦',
+            ],
+            'receivedFromWarehouse' => [
+                'title' => 'Depodan Teslim Alındı',
+                'count' => $receivedFromWarehouse,
+                'description' => 'Depo teslimi',
+                'color_class' => 'green',
+                'icon' => '✓',
+            ],
+            'cargoesSetOff' => [
+                'title' => 'Yola Çıktı',
+                'count' => $cargoesSetOff,
+                'description' => 'Yolculukta',
+                'color_class' => 'purple',
+                'icon' => '✈️',
+            ],
+            'cargoesInDistribution' => [
+                'title' => 'Dağıtımda',
+                'count' => $cargoesInDistribution,
+                'description' => 'Dağıtım aşaması',
+                'color_class' => 'blue',
+                'icon' => '🚚',
+            ],
+            'cargoesDelivered' => [
+                'title' => 'Teslim Edildi',
+                'count' => $cargoesDelivered,
+                'description' => 'Yolculukta',
+                'color_class' => 'green',
+                'icon' => '✓✓',
+            ],
+            'cargoesCanceled' => [
+                'title' => 'İptal Edilen',
+                'count' => $cargoesCanceled,
+                'description' => 'İptal edilen kargolar',
+                'color_class' => 'red',
+                'icon' => '✗',
+            ],
+        ];
 
         $firstTracking = $trackings->first();
         $lastTrackingTime = $firstTracking ? Carbon::parse($firstTracking->customer_purchase_date)->diffForHumans() : null;
@@ -86,14 +147,11 @@ class DashboardController extends Controller
             "lastTrackingTime" => $lastTrackingTime,
             "lastTrackingLongTime" => $lastTrackingLongTime,
             "receivedFromWarehouse" => $receivedFromWarehouse,
-            "cargoesSetOff" => $cargoesSetOff,
-            "cargoesInDistribution" => $cargoesInDistribution,
-            "cargoesDelivered" => $cargoesDelivered,
-            "cargoesCanceled" => $cargoesCanceled,
             "search" => $search,
             "companies" => $companies,
             "newTracking_Code" => $newTracking_Code,
             "cities" => $cities,
+            "cargoStats" => $cargoStats,
         ]);
     }
 

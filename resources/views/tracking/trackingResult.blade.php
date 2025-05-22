@@ -130,7 +130,8 @@
                             </div>
                             <div>
                                 <h3 class="text-sm font-medium text-gray-500">Alıcı</h3>
-                                <p class="text-base font-semibold text-gray-900 mt-1">{{ $trackingCode->users_modal_user_name }}</p>
+                                <p class="text-base font-semibold text-gray-900 mt-1">
+                                    {{ $trackingCode->users_modal_user_name }}</p>
                                 <p class="text-sm text-gray-600 mt-1">{{ $trackingCode->users_information_city }},
                                     {{ $trackingCode->users_information_country }}</p>
                                 <div class="mt-2 flex items-center text-xs text-gray-500">
@@ -173,7 +174,8 @@
                                                 <div class="mt-1 flex items-center text-gray-500">
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                     </svg>
                                                     {{ Carbon::parse($trackingCode->customer_purchase_date)->translatedFormat('d F Y') }}
@@ -207,7 +209,8 @@
                                                 <div class="mt-1 flex items-center text-gray-500">
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                     </svg>
                                                     {{ Carbon::parse($trackingCode->customer_purchase_date)->addDays(1)->translatedFormat('d F Y') }}
@@ -241,7 +244,8 @@
                                                 <div class="mt-1 flex items-center text-gray-500">
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                     </svg>
                                                     {{ Carbon::parse($trackingCode->customer_purchase_date)->addDays(2)->translatedFormat('d F Y') }}
@@ -260,7 +264,8 @@
                                         <div
                                             class="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center status-icon p-4">
                                             <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none">
-                                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" fill="currentColor" />
+                                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                    fill="currentColor" />
                                             </svg>
                                         </div>
                                     </div>
@@ -269,11 +274,13 @@
                                             <h3 class="text-lg font-medium text-gray-900">Teslim Edildi</h3>
                                             <div class="mt-2 text-sm text-gray-600">
                                                 <p class="font-medium">{{ $trackingCode->users_modal_user_name }},
-                                                    {{ $trackingCode->users_information_city . " / " . $trackingCode->users_information_state . " / " . $trackingCode->users_information_district .  " ( $trackingCode->users_information_address )"}}</p>
+                                                    {{ $trackingCode->users_information_city . ' / ' . $trackingCode->users_information_state . ' / ' . $trackingCode->users_information_district . " ( $trackingCode->users_information_address )" }}
+                                                </p>
                                                 <div class="mt-1 flex items-center text-gray-500">
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                     </svg>
                                                     {{ Carbon::parse($trackingCode->customer_purchase_date)->addDays(2)->translatedFormat('d F Y') }}
@@ -291,8 +298,11 @@
                                     <div class="flex-shrink-0 z-10">
                                         <div
                                             class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center status-icon p-4">
-                                            <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none">
-                                                <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 14 12 10.41 8.41 14 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" fill="currentColor" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white"
+                                                viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M18.3 5.71a1 1 0 00-1.41 0L12 10.59 7.11 5.7a1 1 0 00-1.41 1.41L10.59 12l-4.89 4.89a1 1 0 101.41 1.41L12 13.41l4.89 4.89a1 1 0 001.41-1.41L13.41 12l4.89-4.89a1 1 0 000-1.4z" 
+                                                    fill="currentColor" />
                                             </svg>
                                         </div>
                                     </div>
@@ -304,10 +314,11 @@
                                                 <div class="mt-1 flex items-center text-gray-500">
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                     </svg>
-                                                    {{ Carbon::now()->translatedFormat('d F Y') }} • Saat Bilgisi
+                                                    {{ Carbon::now()->translatedFormat('d F Y') }} •
                                                 </div>
                                             </div>
                                         </div>
@@ -320,8 +331,11 @@
                                     <div class="flex-shrink-0 z-10">
                                         <div
                                             class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center status-icon p-4">
-                                            <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none">
-                                                <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 14 12 10.41 8.41 14 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" fill="currentColor" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white"
+                                                viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M18.3 5.71a1 1 0 00-1.41 0L12 10.59 7.11 5.7a1 1 0 00-1.41 1.41L10.59 12l-4.89 4.89a1 1 0 101.41 1.41L12 13.41l4.89 4.89a1 1 0 001.41-1.41L13.41 12l4.89-4.89a1 1 0 000-1.4z" 
+                                                    fill="currentColor" />
                                             </svg>
                                         </div>
                                     </div>
@@ -333,11 +347,36 @@
                                                 <div class="mt-1 flex items-center text-gray-500">
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                     </svg>
-                                                    {{ Carbon::now()->translatedFormat('d F Y') }} • Saat Bilgisi
+                                                    {{ Carbon::now()->translatedFormat('d F Y') }} •
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if ($trackingCode->cargo_status >= 6)
+                                <div class="relative flex items-center space-x-6 timeline-dot">
+                                    <div class="flex-shrink-0 z-10">
+                                        <div
+                                            class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center status-icon p-4">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white"
+                                                viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M18.3 5.71a1 1 0 00-1.41 0L12 10.59 7.11 5.7a1 1 0 00-1.41 1.41L10.59 12l-4.89 4.89a1 1 0 101.41 1.41L12 13.41l4.89 4.89a1 1 0 001.41-1.41L13.41 12l4.89-4.89a1 1 0 000-1.4z" 
+                                                    fill="currentColor" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow">
+                                        <div class="bg-gray-50 rounded-lg p-4">
+                                            <h3 class="text-lg font-medium text-gray-900">Kargo Durumu Yok</h3>
+                                            <div class="mt-2 text-sm text-gray-600">
+                                                <p class="font-medium">Kargo Durum Bilgisine Erişilemedi</p>
                                             </div>
                                         </div>
                                     </div>

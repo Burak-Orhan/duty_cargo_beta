@@ -2,75 +2,33 @@
 @section('title', 'Dashboard')
 @section('breadcrumb', 'Dashboard')
 
-{{-- @section('content')
-    <div class="bg-white py-12 sm:py-16">
-        <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-
-            <h2 class="text-center text-base/7 font-semibold text-indigo-600">{{ $user->name }} , <span id="trackingCount"
-                    onmouseover="mouseOver()">({{ $trackingsCount }})</span></h2>
-
-            <p
-                class="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight text-balance text-gray-950 sm:text-3xl">
-                Duty Kargo Takip Sistemi</p>
-
-            <div class="mt-10 grid gap-6 sm:mt-16 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-
-                @foreach ($trackings as $t)
-                    <form action="{{ route('tracking.post') }}" method="POST" id="{{ $t->trackingCode }}">
-                        @csrf
-                        <input type="hidden" name="trackingCode" value="{{ $t->trackingCode }}">
-
-                        <div onclick="submitForm('{{ $t->trackingCode }}')"
-                            class="relative flex h-full flex-col overflow-hidden rounded-2xl transition hover:shadow-lg hover:scale-[1.02] duration-200 cursor-pointer border border-gray-200 bg-white">
-                            <div class="px-8 pt-8 sm:px-10 sm:pt-10">
-                                <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 text-center">
-                                    {{ $t->trackingCode }}</p>
-                                <p class="mt-2 max-w-lg text-sm text-gray-600 text-center">
-                                    Gönderen: {{ $t->company_name }} , {{ $t->company_country }}</p>
-                                <p class="mt-2 max-w-lg text-sm text-gray-600 text-center">
-                                    Alıcı: {{ $t->users_information_city }} , {{ $t->users_information_country }}</p>
-                            </div>
-                            <div class="flex flex-1 items-center justify-center px-8 pt-10 pb-12">
-                                <img class="w-full max-w-xs"
-                                    src="https://static.vecteezy.com/system/resources/previews/050/463/005/non_2x/global-logistics-concept-fast-and-accurate-cargo-delivery-online-delivery-courier-service-or-mobile-application-concept-for-tracking-shipments-on-a-smartphone-with-ready-made-packaging-illustration-vector.jpg"
-                                    alt="">
-                            </div>
-                        </div>
-                    </form>
-                @endforeach
-
-            </div>
-        </div>
-    </div>
-@endsection
-
-@section('js')
-    <script type="module">
-        import {
-            toastFire
-        } from '{{ asset('assets/js/toastFire.js') }}';
-
-        window.mouseOver = function() {
-            toastFire("info", "Son Kargo Tarihi: {{ $lastTracking }} ({{ $lastTrackingLong }})");
-        }
-
-        window.submitForm = function(trackingCode) {
-            const form = document.getElementById(trackingCode);
-            if (form) {
-                form.submit();
-            }
-        }
-    </script>
-
-@endsection --}}
-
 @php
     use Carbon\Carbon;
     Carbon::setLocale('tr');
 @endphp
 
 @section('content')
-    <div class="p-8">
+
+    @if ($user->is_admin)
+        <div class="p-8">
+            <div class="col-span-7">
+                <div class="rounded-xl border border-gray-100 overflow-hidden shadow-sm"
+                    style="background-color: rgba(255, 255, 255, 0.8);">
+                    <div class="flex justify-between items-center p-4 border-b border-gray-200"
+                        style="background-color: rgba(255, 255, 255, 0.9);">
+                        <div class="flex items-center space-x-5 text-lg">İstenilen Kargo'nun Gönderen E-Mailini Görmek İçin (
+                            <span class="text-sm text-gray-500">
+                                <img width="25px" src="https://img.icons8.com/?size=75&id=2800&format=png&color=6A7282">
+                            </span>
+                            ) Tıklayınız
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <div class="p-8 {{ $user->is_admin ? 'pt-0' : 'pt-8' }}">
         <div class="grid grid-cols-10 gap-6">
             {{-- Sol Kısım (Tablo) - %70 --}}
             <div class="col-span-7">
@@ -87,16 +45,23 @@
                                 </svg>
                                 Yeni Ekle
                             </button>
-                            {{-- <button
+                            <button onclick="window.location.href='{{ route('dashboard') }}'"
                                 class="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
-                                    </path>
+                                <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                    viewBox="0,0,256,256">
+                                    <g fill="#4338ca" fill-rule="nonzero" stroke="none" stroke-width="1"
+                                        stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"
+                                        stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
+                                        font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                                        <g transform="scale(10.66667,10.66667)">
+                                            <path
+                                                d="M7.59375,3l1.46875,2h3.9375c3.32422,0 6,2.67578 6,6v4h-3l4,5.46875l4,-5.46875h-3v-4c0,-4.40625 -3.59375,-8 -8,-8zM4,3.53125l-4,5.46875h3v4c0,4.40625 3.59375,8 8,8h5.40625l-1.46875,-2h-3.9375c-3.32422,0 -6,-2.67578 -6,-6v-4h3z">
+                                            </path>
+                                        </g>
+                                    </g>
                                 </svg>
-                                Kaydet
-                            </button> --}}
-
+                                Yenile
+                            </button>
                         </div>
 
                         <form method="GET" action="{{ route('dashboard') }}">
@@ -114,8 +79,11 @@
                         </form>
                     </div>
 
-
-                    <div class="grid grid-cols-5 gap-10 p-5 border-b border-gray-200 bg-white/90">
+                    <div
+                        class="grid {{ $user->is_admin ? 'grid-cols-6 gap-2.5' : 'grid-cols-5 gap-10' }} p-5 border-b border-gray-200 bg-white/90">
+                        @if ($user->is_admin)
+                            <div class="font-medium text-gray-700">E-Mail</div>
+                        @endif
                         <div class="font-medium text-gray-700">Kargo Tarihi</div>
                         <div class="font-medium text-gray-700">Konum</div>
                         <div class="font-medium text-gray-700">Kargo Durumu</div>
@@ -125,73 +93,81 @@
 
                     @if ($trackings->count() > 0)
                         @foreach ($trackings as $t)
-                            <div class="divide-y divide-gray-200">
-                                <div class="grid grid-cols-5 gap-10 p-5 hover:bg-gray-50/30 transition-colors"
-                                    style="background-color: rgba(255, 255, 255, 0.8);">
-                                    {{-- <div class="text-gray-600">{{ date("d.m.Y", strtotime($t->customer_purchase_date)) }}</div> --}}
-                                    <div class="text-gray-600">
-                                        {{ Carbon::parse($t->customer_purchase_date)->translatedFormat('d F Y') }}</div>
-                                    <div class="text-gray-600">{{ $t->users_information_city }}</div>
+                            <div class="tracking-row grid {{ $user->is_admin ? 'grid-cols-6 gap-x-2.5' : 'grid-cols-5 gap-10' }} p-5 hover:bg-gray-50/30 transition-colors"
+                                style="background-color: rgba(255, 255, 255, 0.8);">
+
+                                @if ($user->is_admin)
                                     <div>
-                                        @switch($t->cargo_status)
-                                            @case(1)
-                                                <span class="px-2.5 py-1 text-sm rounded-full bg-green-200 text-green-800">Depo
-                                                    Teslim
-                                                    Aldı</span>
-                                            @break
-
-                                            @case(2)
-                                                <span class="px-2.5 py-1 text-sm rounded-full bg-purple-100 text-purple-800">Yola
-                                                    Çıktı</span>
-                                            @break
-
-                                            @case(3)
-                                                <span
-                                                    class="px-2.5 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Dağıtımda</span>
-                                            @break
-
-                                            @case(4)
-                                                <span class="px-2.5 py-1 text-sm rounded-full bg-green-100 text-green-800">Teslim
-                                                    Edildi</span>
-                                            @break
-
-                                            @case(5)
-                                                <span class="px-2.5 py-1 text-sm rounded-full bg-red-100 text-red-800">İptal
-                                                    Edildi</span>
-                                            @break
-
-                                            @default
-                                                <span class="px-2.5 py-1 text-sm rounded-full bg-gray-400 text-white">Kargo Durumu
-                                                    Yok</span>
-                                        @endswitch
+                                        <span class="text-sm text-gray-500" onclick="mouseOver('{{ $t->user_email }}')">
+                                            <img width="30px"
+                                                src="https://img.icons8.com/?size=75&id=2800&format=png&color=6A7282">
+                                        </span>
                                     </div>
-                                    <div class="text-gray-900 font-medium">{{ $t->trackingCode }}</div>
-                                    <div>
-                                        <form action="{{ route('tracking.post') }}" method="POST"
-                                            id="{{ $t->trackingCode }}">
-                                            @csrf
-                                            <input type="hidden" name="trackingCode" value="{{ $t->trackingCode }}">
-                                            <button type="submit"
-                                                class="px-4 py-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50/50 hover:bg-indigo-50 rounded-lg transition-colors">
-                                                İncele
-                                            </button>
-                                        </form>
-                                    </div>
+                                @endif
+
+                                <div class="text-gray-600">
+                                    {{ Carbon::parse($t->customer_purchase_date)->translatedFormat('d F Y') }}
+                                </div>
+                                <div class="text-gray-600">{{ $t->users_information_city }}</div>
+                                <div>
+                                    @switch($t->cargo_status)
+                                        @case(1)
+                                            <span class="px-2.5 py-1 text-sm rounded-full bg-green-200 text-green-800">Depo
+                                                Teslim Aldı</span>
+                                        @break
+
+                                        @case(2)
+                                            <span class="px-2.5 py-1 text-sm rounded-full bg-purple-100 text-purple-800">Yola
+                                                Çıktı</span>
+                                        @break
+
+                                        @case(3)
+                                            <span
+                                                class="px-2.5 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Dağıtımda</span>
+                                        @break
+
+                                        @case(4)
+                                            <span class="px-2.5 py-1 text-sm rounded-full bg-green-100 text-green-800">Teslim
+                                                Edildi</span>
+                                        @break
+
+                                        @case(5)
+                                            <span class="px-2.5 py-1 text-sm rounded-full bg-red-100 text-red-800">İptal
+                                                Edildi</span>
+                                        @break
+
+                                        @default
+                                            <span class="px-2.5 py-1 text-sm rounded-full bg-gray-400 text-white">Kargo
+                                                Durumu
+                                                Yok</span>
+                                    @endswitch
+                                </div>
+                                <div class="text-gray-900 font-medium">{{ $t->trackingCode }}</div>
+                                <div>
+                                    <form action="{{ route('tracking.post') }}" method="POST"
+                                        id="{{ $t->trackingCode }}">
+                                        @csrf
+                                        <input type="hidden" name="trackingCode" value="{{ $t->trackingCode }}">
+                                        <button type="submit"
+                                            class="px-4 py-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50/50 hover:bg-indigo-50 rounded-lg transition-colors">
+                                            İncele
+                                        </button>
+                                    </form>
+                                    <input type="hidden" name="email" id="email" value="{{ $t->user_email }}">
                                 </div>
                             </div>
                         @endforeach
                     @else
                         <div class="container mx-auto flex items-center justify-center">
-                            <img src="https://img.freepik.com/premium-vector/cloud-storage-concept-vector-isometric-style-stock-illustration-eps-file_848977-890.jpg"
+                            <img src="{{ asset("assets/img/null_dashboard_table_img.avif") }}"
                                 width="450px">
                         </div>
-
                     @endif
 
                     <div class="flex items-center justify-between px-6 py-4 bg-white border-t border-gray-200">
                         <div class="flex flex-col">
-                            {{-- <span class="text-sm font-medium text-gray-700 mb-1">Toplam {{ $trackingsCount }}</span> --}}
-                            <span class="text-sm text-gray-500" id="pageInfo">Toplam {{ $trackingsCount }}</span>
+                            <span class="text-sm text-gray-500" id="pageInfo">Toplam
+                                {{ $trackingsCount }}</span>
                         </div>
 
                         <div class="flex items-center space-x-2">
@@ -254,7 +230,7 @@
                         <div class="flex items-center space-x-2">
                             {{-- Sayfa başına kaç adet görüneceğini ayarlama --}}
                             <form method="GET" action="{{ route('dashboard') }}" class="flex items-center gap-2">
-                                {{-- mb-4 --}}
+                                {{-- form mb-4 --}}
                                 <input type="hidden" name="search" value="{{ request('search') }}">
                                 <label for="per_page">Sayfa başına:</label>
                                 <select name="per_page" id="per_page" onchange="this.form.submit()"
@@ -269,10 +245,6 @@
                                 </select>
                             </form>
                         </div>
-
-                        {{-- <span class="text-sm text-gray-500" onmouseover="mouseOver()" id="trackingCount"><img
-                                    width="30px"
-                                    src="https://img.icons8.com/?size=75&id=2800&format=png&color=6A7282"></span> --}}
                     </div>
                 </div>
             </div>
@@ -280,74 +252,24 @@
             <div class="col-span-3 space-y-5">
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-                        <div class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="text-sm font-medium text-gray-500 mb-1">Toplam Kargo</h3>
-                                    <div class="text-2xl font-bold text-gray-900">{{ $trackingsCount ?? '0' }}</div>
-                                    <p class="text-xs text-gray-500">Toplam kargo sayısı</p>
-                                </div>
-                                <div class="text-2xl text-gray-400">📦</div>
-                            </div>
-                        </div>
-
-                        <div class="p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="text-sm font-medium text-green-700 mb-1">Depodan Teslim Alındı</h3>
-                                    <div class="text-2xl font-bold text-green-800">{{ $receivedFromWarehouse ?? '0' }}
+                        @foreach ($cargoStats as $stat)
+                            <div
+                                class="p-4 bg-{{ $stat['color_class'] }}-50 rounded-lg hover:bg-{{ $stat['color_class'] }}-100 transition-colors">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-sm font-medium text-{{ $stat['color_class'] }}-700 mb-1">
+                                            {{ $stat['title'] }}</h3>
+                                        <div class="text-2xl font-bold text-{{ $stat['color_class'] }}-800">
+                                            {{ $stat['count'] }}</div>
+                                        <p class="text-xs text-{{ $stat['color_class'] }}-700">
+                                            {{ $stat['description'] }}
+                                        </p>
                                     </div>
-                                    <p class="text-xs text-green-700">Depo teslimi</p>
+                                    <div class="text-2xl text-{{ $stat['color_class'] }}-400">
+                                        {{ $stat['icon'] }}</div>
                                 </div>
-                                <div class="text-2xl text-green-400">✓</div>
                             </div>
-                        </div>
-
-                        <div class="p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="text-sm font-medium text-purple-700 mb-1">Yola Çıktı</h3>
-                                    <div class="text-2xl font-bold text-purple-800">{{ $cargoesSetOff ?? '0' }}</div>
-                                    <p class="text-xs text-purple-700">Yolculukta</p>
-                                </div>
-                                <div class="text-2xl text-purple-400">✈️</div>
-                            </div>
-                        </div>
-
-                        <div class="p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="text-sm font-medium text-blue-700 mb-1">Dağıtımda</h3>
-                                    <div class="text-2xl font-bold text-blue-800">{{ $cargoesInDistribution ?? '0' }}
-                                    </div>
-                                    <p class="text-xs text-blue-700">Dağıtım aşaması</p>
-                                </div>
-                                <div class="text-2xl text-blue-400">🚚</div>
-                            </div>
-                        </div>
-
-                        <div class="p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="text-sm font-medium text-green-700 mb-1">Teslim Edildi</h3>
-                                    <div class="text-2xl font-bold text-green-800">{{ $cargoesDelivered ?? '0' }}
-                                    </div>
-                                    <p class="text-xs text-green-700">Yolculukta</p>
-                                </div>
-                                <div class="text-2xl text-green-400">✓✓</div>
-                            </div>
-                        </div>
-
-                        <div class="p-4 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="text-sm font-medium text-red-700 mb-1">İptal Edilen</h3>
-                                    <div class="text-3xl font-bold text-red-800">{{ $cargoesCanceled ?? '0' }}</div>
-                                    <p class="text-xs text-red-700">İptal edilen kargolar</p>
-                                </div>
-                                <div class="text-3xl text-red-400">✗</div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -380,7 +302,8 @@
                     <div class="p-6 space-y-6">
                         <div>
                             <label for="status"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kargo Durumu
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kargo
+                                Durumu
                                 Seçiniz</label>
                             <select name="status" id="status"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
@@ -395,7 +318,8 @@
                         </div>
                         <div>
                             <label for="company_id"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Satıcı Seçiniz</label>
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Satıcı
+                                Seçiniz</label>
                             <select name="company_id" id="company_id"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                                 required>
@@ -409,10 +333,11 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label for="modal_user_name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alıcı Adı /
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alıcı
+                                    Adı /
                                     Soyadı</label>
-                                <input type="text" name="modal_user_name" id="modal_user_name" placeholder="Alıcı Adı / Soyadı"
-                                    required
+                                <input type="text" name="modal_user_name" id="modal_user_name"
+                                    placeholder="Alıcı Adı / Soyadı" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             </div>
                             <div>
@@ -488,14 +413,14 @@
         } from '{{ asset('assets/js/toastFire.js') }}';
 
         // Last Cargo İnformation
-        window.mouseOver = function() {
-            toastFire("info", "Son Kargo Tarihi: {{ $lastTrackingTime }} ({{ $lastTrackingLongTime }})");
+        window.mouseOver = function(email) {
+            toastFire("info", "Kargo Sahibinin E-Maili: " + email);
         }
 
-        // Footer content 
+        // Footer Cargo Content 
         document.addEventListener('DOMContentLoaded', function() {
             const input = document.getElementById('searchInput');
-            const rows = document.querySelectorAll('.divide-y');
+            const rows = document.querySelectorAll('.tracking-row');
             const pageInfo = document.getElementById('pageInfo');
 
             const total = {{ $trackingsCount }};
@@ -528,7 +453,7 @@
             input.addEventListener('input', filterTable);
         });
 
-        // Modal
+        // New Cargo Modal
         document.getElementById('users_information_city').addEventListener('change', function() {
             let cityId = this.value;
 
