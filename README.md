@@ -74,10 +74,10 @@ Hesap oluşturabilir, kargo gönderimi yapabilir, gönderilen kargoları ve karg
 
 | Kullanılan Yazılım Dilleri       |  Oran   |
 |----------------------------------|---------|
-| (Laravel) Blade                  | %54.86  |
-| PHP                              | %30.58  |
-| (CSS) Tailwind                   | %4.58   |
-| (JS) Flowbite, Ajax, SweetAlert2 | %2.23   |
+| (Laravel) Blade                  | %63.4   |
+| PHP                              | %28.9   |
+| (CSS) Tailwind                   | %5.3    |
+| (JS) Flowbite, Ajax, SweetAlert2 | %2.4    |
 
 | Kullanılan Teknolojiler          |         |
 |----------------------------------|---------|
@@ -91,9 +91,6 @@ Hesap oluşturabilir, kargo gönderimi yapabilir, gönderilen kargoları ve karg
 ## ER Diagram Görüntüsü
 
 <img src="/public/assets/img/DutyCargo-ER-Diagram.png" alt="DutyCARGO Logo">
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
 
 ## Dosya Yapısı
 [Git Tree Document](https://gitdocs1.s3.amazonaws.com/digests/burak-orhan-duty_cargo/61696bce-85cb-4711-ab1e-fc01f8d2399b.txt)
