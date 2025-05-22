@@ -16,6 +16,7 @@ class DashboardController extends Controller
     public function dashboard(Request $request)
     {
         Carbon::setLocale("tr");
+
         $user = Auth::user();
         $search = $request->input('search');
         $perPage = $request->input('per_page', 10);
@@ -166,7 +167,7 @@ class DashboardController extends Controller
             'zip_code' => $city->zip_code,
         ]);
     }
-
+    
     public function dashboardPost(Request $request)
     {
         $user = Auth::user();
