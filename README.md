@@ -158,8 +158,8 @@ Directory structure:
     │   │   ├── 0001_01_01_000002_create_jobs_table.php
     │   │   └── 2025_04_20_175404_create_cargos_table.php
     │   └── seeders/
-    │       ├── DatabaseSeeder.php
-    │       └── fakeSeeder.php
+    │       └── DatabaseSeeder.php
+    │       
     ├── public/
     │   ├── index.php
     │   ├── robots.txt
