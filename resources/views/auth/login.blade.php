@@ -19,10 +19,10 @@
                     <img class="mx-auto h-32 w-auto transform transition-transform duration-300 hover:scale-110"
                         src="{{ asset('assets/img/DutyCARGO.webp') }}" alt="DutyCARGO Logo">
                     <h2 class="mt-6 text-4xl font-extrabold text-gray-900 tracking-tight">
-                        Yeni Hesap Oluştur
+                        Hesaba Giriş Yap
                     </h2>
                     <p class="mt-2 text-sm text-gray-600">
-                        Tüm alanları doldurarak kayıt olun
+                        Alanları doldurarak hesabınıza giriş yapın
                     </p>
                 </div>
 

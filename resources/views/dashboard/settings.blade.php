@@ -195,7 +195,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Adres</label>
-                        <input type="text" name="address"
+                        <input type="text" name="address" id="address"
                             value="{{ old('address', optional(Auth::user()->userInformation)->address) }}"
                             class="mt-1 block w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                     </div>
@@ -231,6 +231,7 @@
                     document.getElementById('state').value = data.state;
                     document.getElementById('district').value = data.district;
                     document.getElementById('zip_code').value = data.zip_code;
+                    document.getElementById('address').value = data.address;
                 })
                 .catch(error => {
                     console.error('Şehir bilgisi alınamadı:', error);
