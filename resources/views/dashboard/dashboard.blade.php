@@ -463,6 +463,7 @@
                     document.getElementById('users_information_city_name').value = data.city;
                     document.getElementById('users_information_state').value = data.state;
                     document.getElementById('users_information_district').value = data.district;
+                    document.getElementById('users_information_address').value = data.address;
                     document.getElementById('users_information_zip_code').value = data.zip_code;
                 })
                 .catch(error => {
