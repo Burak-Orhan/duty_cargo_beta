@@ -66,7 +66,7 @@
                             <button type="submit" class="text-gray-600 hover:text-red-500">
                                 <span class="material-symbols-outlined">
                                     logout
-                                </span>
+                                </span> 
                             </button>
                         </form>
                     </div>
